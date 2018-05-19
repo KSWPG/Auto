@@ -3,6 +3,7 @@
 Piny GPIO:
 
 Zastosowanie | WiringPi    | GPIO Header
+
 Bridge Enable| 7           | 7
 PWM L        | 23          | 35
 ENABLE L     | 3           | 15
