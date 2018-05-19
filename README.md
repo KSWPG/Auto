@@ -9,28 +9,55 @@
 
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="auto">Auto</h1>
-<p>Piny GPIO:</p>
-<p>Zastosowanie | WiringPi    | GPIO Header</p>
-<p>Bridge Enable| 7           | 7<br>
-PWM L        | 23          | 35<br>
-ENABLE L     | 3           | 15<br>
-PWM P        | 26          | 32<br>
-ENABLE P     | 4           | 16</p>
+<table>
+  <tr>
+    <th>Zastosowanie</th>
+    <th>WriringPi</th>
+    <th>GPIO HEADER</th>
+  </tr>
+  <tr>
+    <td>BRIDGE ENABLE</td>
+    <td>7</td>
+    <td>7</td>
+  </tr>
+  <tr>
+    <td>PWM L</td>
+    <td>23</td>
+    <td>35</td>
+  </tr>
+  <tr>
+    <td>ENABLE L</td>
+    <td>3</td>
+    <td>15</td>
+  </tr>
+  <tr>
+    <td>PWM P</td>
+    <td>26</td>
+    <td>32</td>
+  </tr>
+  <tr>
+    <td>ENABLE P</td>
+    <td>4</td>
+    <td>16</td>
+  </tr>
+</table>
 <h1 id="style-guide">Style Guide</h1>
-<p>#include <br>
-using namspace std;</p>
-<p>int main()<br>
-{<br>
-int a = 4;                      // a<br>
-int c = a + 6;</p>
-<pre><code>for (int i = 0 ; i &lt; c ; i++)
-{
-    cout &lt;&lt; "HelloWorld";
-}
+<pre><code>#include &lt;iostream&gt;
+using namspace std;
 
-return 0;
+int main()
+{
+    int a = 4;                      // a
+    int c = a + 6;
+
+    for (int i = 0 ; i &lt; c ; i++)
+    {
+        cout &lt;&lt; "HelloWorld";
+    }
+
+    return 0;
+}
 </code></pre>
-<p>}</p>
 </div>
 </body>
 
