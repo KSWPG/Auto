@@ -49,10 +49,12 @@ int main()
 {
     int a = 4;                      // a
     int c = a + 6;
+
     for (int i = 0 ; i &lt; c ; i++)
     {
         cout &lt;&lt; "HelloWorld";
     }
+
     return 0;
 }
 </code></pre>
