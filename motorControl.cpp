@@ -65,7 +65,7 @@ void turnRight(Motor ML,Motor MR)
 	MR.changeSpeed(speedR);
 }
 
-void prosto(Motor ML,Motor MR)
+void straight(Motor ML,Motor MR)
 {
 	int speedL=ML.showSpeed();
 	int speedR=MR.showSpeed();
@@ -97,25 +97,25 @@ int main()
 	pinMode (7, OUTPUT);
 	digitalWrite (7, HIGH);
 	
-	Motor motor1(23,3);
-	Motor motor2(26,4);
+	Motor motorL(23,3);
+	Motor motorR(26,4);
 	
-	motor1.changeSpeed(500);
-	motor2.changeSpeed(500);
+	motorL.changeSpeed(500);
+	motorR.changeSpeed(500);
 	delay(2000);
-	turnLeft(motor1,motor2);
+	turnLeft(motorL,motorR);
 	delay(2000);
-	turnRight(motor1,motor2);
+	turnRight(motorL,motorR);
 	delay(2000);
-	prosto(motor1,motor2);
+	straight(motorL,motorR);
 	delay(2000);
-	rotateInPoint(motor1,motor2,500,1);
+	rotateInPoint(motorL,motorR,500,1);
 	delay(2000);
-	rotateInPoint(motor1,motor2,500,-1);
+	rotateInPoint(motorL,motorR,500,-1);
 	delay(2000);
 	
-	motor1.changeSpeed(0);
-	motor2.changeSpeed(0);
+	motorL.changeSpeed(0);
+	motorR.changeSpeed(0);
 
 	return 0;
 }
