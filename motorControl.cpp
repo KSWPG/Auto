@@ -11,7 +11,7 @@ class Motor{
 		int direction=1;		//1 do przodu, -1 do tyłu
 		
 	public:
-		Motor(int pinPWM_K,int pinDirection_K)
+		Motor(int pinPWM_K, int pinDirection_K)
 		{
 			pinPWM=pinPWM_K;
 			pinDirection=pinDirection_K;
@@ -19,8 +19,7 @@ class Motor{
 			exit (1) ;
 			pinMode (pinDirection, OUTPUT);
 			digitalWrite (pinDirection, HIGH);
-			pinMode (pinPWM, PWM_OUTPUT);
-			
+			pinMode (pinPWM, PWM_OUTPUT)
 		}
 		
 		void changeSpeed(int new_speed)
