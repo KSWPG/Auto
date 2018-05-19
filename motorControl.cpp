@@ -90,10 +90,10 @@ void rotateInPoint(Motor ML,Motor MR,int speed,int direction)		//direction 1 w p
 
 
 int main()
-{
-	
+{	
 	if (wiringPiSetup () == -1)
-    exit (1);
+    		exit (1);
+	
 	pinMode (7, OUTPUT);
 	digitalWrite (7, HIGH);
 	
@@ -116,7 +116,6 @@ int main()
 	
 	motor1.changeSpeed(0);
 	motor2.changeSpeed(0);
-	
-	
+
 	return 0;
 }
