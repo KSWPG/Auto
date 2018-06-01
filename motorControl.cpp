@@ -2,50 +2,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "motorControl.h"
 
-class Motor{
-	private:
-		int pinPWM;
-		int pinDirection;
-		int speed=0;
-		int direction=1;		//1 do przodu, -1 do tyłu
+Motor::Motor(int pinPWM_K,int pinDirection_K)
+	{
+		pinPWM=pinPWM_K;
+		pinDirection=pinDirection_K;
+		if (wiringPiSetup () == -1)
+			exit(1);
+		pinMode (pinDirection, OUTPUT);
+		digitalWrite (pinDirection, HIGH);
+		pinMode (pinPWM, PWM_OUTPUT);
+			
+	}
 		
-	public:
-		Motor(int pinPWM_K, int pinDirection_K)
-		{
-			pinPWM=pinPWM_K;
-			pinDirection=pinDirection_K;
-			if (wiringPiSetup () == -1)
-			exit (1) ;
-			pinMode (pinDirection, OUTPUT);
-			digitalWrite (pinDirection, HIGH);
-			pinMode (pinPWM, PWM_OUTPUT)
-		}
+void Motor::changeSpeed(int new_speed)
+	{
+		speed=new_speed;
+		pwmWrite(pinPWM, speed);
+	}
 		
-		void changeSpeed(int new_speed)
-		{
-			speed=new_speed;
-			pwmWrite(pinPWM, speed);
-		}
+void Motor::changeDirection(int new_direction)
+	{
+		direction=new_direction;
+		if (direction==-1)
+			direction=0;
+		digitalWrite (pinDirection, direction);
+	}
 		
-		void changeDirection(int new_direction)
-		{
-			direction=new_direction;
-			if (direction==-1)
-				direction=0;
-			digitalWrite (pinDirection, direction);
-		}
+int Motor::showSpeed()
+	{
+		return speed;
+	}
 		
-		int showSpeed()
-		{
-			return speed;
-		}
-		
-		int showDirection()
-		{
-			return direction;
-		}		
-};
+int Motor::showDirection()
+	{
+		return direction;
+	}		
 
 void turnLeft(Motor ML,Motor MR)
 {
@@ -89,33 +82,3 @@ void rotateInPoint(Motor ML,Motor MR,int speed,int direction)		//direction 1 w p
 }
 
 
-int main()
-{	
-	if (wiringPiSetup () == -1)
-    		exit (1);
-	
-	pinMode (7, OUTPUT);
-	digitalWrite (7, HIGH);
-	
-	Motor motorL(23,3);
-	Motor motorR(26,4);
-	
-	motorL.changeSpeed(500);
-	motorR.changeSpeed(500);
-	delay(2000);
-	turnLeft(motorL,motorR);
-	delay(2000);
-	turnRight(motorL,motorR);
-	delay(2000);
-	straight(motorL,motorR);
-	delay(2000);
-	rotateInPoint(motorL,motorR,500,1);
-	delay(2000);
-	rotateInPoint(motorL,motorR,500,-1);
-	delay(2000);
-	
-	motorL.changeSpeed(0);
-	motorR.changeSpeed(0);
-
-	return 0;
-}
