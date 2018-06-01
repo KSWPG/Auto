@@ -21,22 +21,22 @@
     <td>7</td>
   </tr>
   <tr>
-    <td>PWM L</td>
+    <td>PWM P</td>
     <td>23</td>
     <td>35</td>
   </tr>
   <tr>
-    <td>ENABLE L</td>
+    <td>ENABLE P</td>
     <td>3</td>
     <td>15</td>
   </tr>
   <tr>
-    <td>PWM P</td>
+    <td>PWM L</td>
     <td>26</td>
     <td>32</td>
   </tr>
   <tr>
-    <td>ENABLE P</td>
+    <td>ENABLE L</td>
     <td>4</td>
     <td>16</td>
   </tr>
