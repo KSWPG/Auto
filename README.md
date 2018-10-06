@@ -26,7 +26,7 @@
     <td>35</td>
   </tr>
   <tr>
-    <td>ENABLE P</td>
+    <td>PHASE P</td>
     <td>3</td>
     <td>15</td>
   </tr>
@@ -36,7 +36,7 @@
     <td>32</td>
   </tr>
   <tr>
-    <td>ENABLE L</td>
+    <td>PHASE L</td>
     <td>4</td>
     <td>16</td>
   </tr>
