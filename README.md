@@ -1,64 +1,22 @@
-<!DOCTYPE html>
-<html>
+## Adresy IP
+Ethernet: 192.168.1.10  
+Wi-Fi: 192.168.2.9  
+Sposób łączenia się do odpowiedniej sieci zostanie opisany w pliku JakSiePolaczyc.md
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackedit.io/style.css" />
-</head>
+## Konta użytkowników
+Login: pi  
+Hasło: raspberry  
+  
+Login: Root - konto administratora  
+Hasło: []  
+  
+Na konto root nie da się zalogować bezpośrednio po SSH, najpierw należy się zalogować na użytkownika **pi**, a następnie dopiero wpisać komendę `sudo`, która pozwoli zalogować się na **roota**.
 
-<body class="stackedit">
-  <div class="stackedit__html"><h1 id="auto">Auto</h1>
-<table>
-  <tr>
-    <th>Zastosowanie</th>
-    <th>WriringPi</th>
-    <th>GPIO HEADER</th>
-  </tr>
-  <tr>
-    <td>BRIDGE ENABLE</td>
-    <td>7</td>
-    <td>7</td>
-  </tr>
-  <tr>
-    <td>PWM P</td>
-    <td>23</td>
-    <td>35</td>
-  </tr>
-  <tr>
-    <td>PHASE P</td>
-    <td>3</td>
-    <td>15</td>
-  </tr>
-  <tr>
-    <td>PWM L</td>
-    <td>26</td>
-    <td>32</td>
-  </tr>
-  <tr>
-    <td>PHASE L</td>
-    <td>4</td>
-    <td>16</td>
-  </tr>
-</table>
-<h1 id="style-guide">Style Guide</h1>
-<pre><code>#include &lt;iostream&gt;
-using namspace std;
-
-int main()
-{
-    int a = 4;                      // a
-    int c = a + 6;
-
-    for (int i = 0 ; i &lt; c ; i++)
-    {
-        cout &lt;&lt; "HelloWorld";
-    }
-
-    return 0;
-}
-</code></pre>
-</div>
-</body>
-
-</html>
+## Wykaz wykorzystanych pinów RPi
+|Zastosowanie|BCM|GPIO Header|WiringPi|
+|------------|----------|----------|----|
+|BRIDGE ENABLE|4|7|7|
+|PWM P|13|33|23|
+|PHASE P|22|15|3|
+|PWM L|12|32|26|
+|PHASE L|23|16|4|
