@@ -1,6 +1,6 @@
 ## Adresy IP
-Ethernet: 192.168.0.4  
-Wi-Fi: 192.168.0.5  
+Ethernet: 192.168.1.10  
+Wi-Fi: 192.168.2.9  
 Sposób łączenia się do odpowiedniej sieci zostanie opisany w pliku JakSiePolaczyc.md
 
 ## Konta użytkowników
