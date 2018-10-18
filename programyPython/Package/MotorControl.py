@@ -40,18 +40,19 @@ class MotorControl:
             return self.speedR
 
     def changeSpeed(self,speed,motor='B'):  #zmienia predkosc obrotow silnika na zadany w speed(wartosc wypelnienia impulsow PWM w procentach od 0 do 100), zmiennna motor('L','R') pozwala wybrac silnik, ktorego predkosc obrotow chcemy zmieniec domyslnie zmienia dla obu
-        if motor=='L':
-            self.speedL = speed
-            self.pwmL.ChangeDutyCycle(speed)    #zmienia wartosc wypelnienia impulsow PWM
-        elif motor=='R':
-            self.speedR = speed
-            self.pwmR.ChangeDutyCycle(speed)
-        else:
-            self.speedL = speed
-            self.speedR = speed
+        if(0<=speed && 100>=speed):
+            if motor=='L':
+                self.speedL = speed
+                self.pwmL.ChangeDutyCycle(speed)    #zmienia wartosc wypelnienia impulsow PWM
+            elif motor=='R':
+                self.speedR = speed
+                self.pwmR.ChangeDutyCycle(speed)
+            else:
+                self.speedL = speed
+                self.speedR = speed
 
-            self.pwmL.ChangeDutyCycle(speed)
-            self.pwmR.ChangeDutyCycle(speed)
+                self.pwmL.ChangeDutyCycle(speed)
+                self.pwmR.ChangeDutyCycle(speed)
 
     def showDirection(self,motor):
         if motor=='L':
@@ -59,28 +60,29 @@ class MotorControl:
         else:
             return self.DirectionR
 
-    def changeDirection(self,newDirection,motor='B'):       #zmienia kierunek obrotu silnika na zadany w newDirection(0,1), zmienna motor('L','R') pozwala wybrac silnik, ktorego kierunek obrotow chcemy zmieniec domyslnie zmienia dla obu
-        if motor=='L':
-            self.changeSpeed(0,'L')
-            self.DirectionL = newDirection
-            if newDirection == -1:
-                newDirection = 0
-            GPIO.output(self.pinDirectionL, newDirection)
-        elif motor=='R':
-            self.changeSpeed(0,'R')
-            self.DirectionR = newDirection
-            if newDirection == -1:
-                newDirection = 0
-            GPIO.output(self.pinDirectionR, newDirection)
-        else:
-            self.changeSpeed(0)
-            self.DirectionL = newDirection
-            self.DirectionR = newDirection
+    def changeDirection(self,newDirection,motor='B'):       #zmienia kierunek obrotu silnika na zadany w newDirection(-1,1), zmienna motor('L','R') pozwala wybrac silnik, ktorego kierunek obrotow chcemy zmieniec domyslnie zmienia dla obu
+        if(newDirection==-1 || newDirection==1):
+            if motor=='L':
+                self.changeSpeed(0,'L')
+                self.DirectionL = newDirection
+                if newDirection == -1:
+                    newDirection = 0
+                GPIO.output(self.pinDirectionL, newDirection)
+            elif motor=='R':
+                self.changeSpeed(0,'R')
+                self.DirectionR = newDirection
+                if newDirection == -1:
+                    newDirection = 0
+                GPIO.output(self.pinDirectionR, newDirection)
+            else:
+                self.changeSpeed(0)
+                self.DirectionL = newDirection
+                self.DirectionR = newDirection
 
-            if newDirection == -1:
-                newDirection = 0
-            GPIO.output(self.pinDirectionL, newDirection)
-            GPIO.output(self.pinDirectionR, newDirection)
+                if newDirection == -1:
+                    newDirection = 0
+                GPIO.output(self.pinDirectionL, newDirection)
+                GPIO.output(self.pinDirectionR, newDirection)
 
     def turn(self,direction,difference=10):     #pozwala na skret w lewo lub prawo w zaleznosci od zmiennej direction('L','R') poprzez zmiane wartosci predkosci silnikow o zadana w zmiennej difference
         speedL = 0
@@ -106,11 +108,12 @@ class MotorControl:
         self.changeSpeed(newSpeed)
 
     def rotateInPoint(self,speed,direction):    #pozwala na obrot w miejscu z predkosci zadana w zmiennej speed(wartosc wypelnienia impulsow PWM w procentach od 0 do 100) i w kierunku zadanym przez zmienna direction
-        if direction == 'R':
-            self.changeDirection(1,'L')
-            self.changeDirection(-1,'R')
-        else:
-            self.changeDirection(-1,'L')
-            self.changeDirection(1,'R')
+        if(0<=speed && 100>=speed):
+            if direction == 'R':
+                self.changeDirection(1,'L')
+                self.changeDirection(-1,'R')
+            else:
+                self.changeDirection(-1,'L')
+                self.changeDirection(1,'R')
 
-        self.changeSpeed(speed)
+            self.changeSpeed(speed)
