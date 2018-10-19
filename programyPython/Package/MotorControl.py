@@ -40,7 +40,7 @@ class MotorControl:
             return self.speedR
 
     def changeSpeed(self,speed,motor='B'):  #zmienia predkosc obrotow silnika na zadany w speed(wartosc wypelnienia impulsow PWM w procentach od 0 do 100), zmiennna motor('L','R') pozwala wybrac silnik, ktorego predkosc obrotow chcemy zmieniec domyslnie zmienia dla obu
-        if(0<=speed && 100>=speed):
+        if(0<=speed and 100>=speed):
             if motor=='L':
                 self.speedL = speed
                 self.pwmL.ChangeDutyCycle(speed)    #zmienia wartosc wypelnienia impulsow PWM
@@ -61,7 +61,7 @@ class MotorControl:
             return self.DirectionR
 
     def changeDirection(self,newDirection,motor='B'):       #zmienia kierunek obrotu silnika na zadany w newDirection(-1,1), zmienna motor('L','R') pozwala wybrac silnik, ktorego kierunek obrotow chcemy zmieniec domyslnie zmienia dla obu
-        if(newDirection==-1 || newDirection==1):
+        if(newDirection==-1 or newDirection==1):
             if motor=='L':
                 self.changeSpeed(0,'L')
                 self.DirectionL = newDirection
@@ -108,7 +108,7 @@ class MotorControl:
         self.changeSpeed(newSpeed)
 
     def rotateInPoint(self,speed,direction):    #pozwala na obrot w miejscu z predkosci zadana w zmiennej speed(wartosc wypelnienia impulsow PWM w procentach od 0 do 100) i w kierunku zadanym przez zmienna direction
-        if(0<=speed && 100>=speed):
+        if(0<=speed and 100>=speed):
             if direction == 'R':
                 self.changeDirection(1,'L')
                 self.changeDirection(-1,'R')
