@@ -13,7 +13,7 @@ w punkcie trzecim artykułu. Na swoim komputerze należy ustawić IP zgodne z ty
 lub dla win7 [tutaj](https://www.pcninja.us/turn-your-windows-7-laptop-into-a-wifi-hotspot/)
 - Skonfiguruj hotspot zgodnie z poniższymi informacjami inaczej RPi się nie połączy:
   - SSID: KSW
-  - Hasło: []  
+  - Hasło: ksemwetipg  
 - Aby połączenie było możliwe musisz jeszcze zmienić adres IP swojej karty sieciowej, jak to zrobić znajdziesz [tutaj](https://trybawaryjny.pl/jak-zmienic-ip/) w punkcie trzecim artykułu.
 Aby RPi miało połączenie z Internetem za pośrednictwem naszego laptopa należy ustawić następujące IP:
   - adress IP: 192.168.2.1
