@@ -1,6 +1,6 @@
 ## Adresy IP
 Ethernet: 192.168.1.10  
-Wi-Fi: 192.168.2.9  (obecnie nie działa)
+Wi-Fi: 192.168.2.9  (obecnie nie działa)  
 Sposób łączenia się do odpowiedniej sieci zostanie opisany w pliku [JakSiePolaczyc.md](JakSiePolaczyc.md)
 
 ## Konta użytkowników
