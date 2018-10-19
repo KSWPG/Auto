@@ -8,7 +8,7 @@ Login: pi
 Hasło: raspberry  
   
 Login: Root - konto administratora  
-Hasło: []  
+Hasło: ksemwetipg  
   
 Na konto root nie da się zalogować bezpośrednio po SSH, najpierw należy się zalogować na użytkownika **pi**, a następnie dopiero wpisać komendę `sudo`, która pozwoli zalogować się na **roota**.
 
