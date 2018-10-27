@@ -23,14 +23,14 @@ class mapMatrixClass():
 		self.setSolidWall(0,9,"W")
 		self.setSolidWall(0,9,"N")
 
-		self.setSolidWall(0,0,"S")
+		self.setSolidWall(1,0,"S")
 		self.setSolidWall(1,6,"N")
 		self.setSolidWall(1,7,"S")
 		self.setSolidWall(1,7,"E")
 		self.setSolidWall(1,8,"E")
 		self.setSolidWall(1,9,"N")
 
-		self.setSolidWall(0,0,"S")
+		self.setSolidWall(2,0,"S")
 		self.setSolidWall(2,5,"E")
 		self.setSolidWall(2,6,"E")
 		self.setSolidWall(2,7,"W")
@@ -137,10 +137,10 @@ class mapMatrixClass():
 		self.setSolidWall(9,3,"W")
 		self.setSolidWall(9,3,"E")
 		self.setSolidWall(9,4,"E")
-		self.setSolidWall(9,4,"N")
+		#self.setSolidWall(9,4,"N")
 		self.setSolidWall(9,4,"W")
 		self.setSolidWall(9,5,"E")
-		self.setSolidWall(9,5,"S")
+		#self.setSolidWall(9,5,"S")
 		self.setSolidWall(9,5,"N")
 		self.setSolidWall(9,6,"S")
 		self.setSolidWall(9,6,"E")
@@ -158,6 +158,12 @@ class mapMatrixClass():
 		elif direction == "S" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 2
 		elif direction == "W" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 1
 
+	def setVisited(self,x,y):
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
+	
+	def setNotAvailable(self,x,y):
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
+	
 	def isWallExist(self,x,y,direction):
 		if direction == "N" : 
 			if self.mapMatrix[x][y] & 8 == 8: return True
