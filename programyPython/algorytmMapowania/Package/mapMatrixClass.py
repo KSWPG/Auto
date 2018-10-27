@@ -157,13 +157,7 @@ class mapMatrixClass():
 		elif direction == "E" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 4
 		elif direction == "S" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 2
 		elif direction == "W" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 1
-
-	def setVisited(self,x,y):
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
-	
-	def setNotAvailable(self,x,y):
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
-	
+		
 	def isWallExist(self,x,y,direction):
 		if direction == "N" : 
 			if self.mapMatrix[x][y] & 8 == 8: return True
@@ -174,6 +168,20 @@ class mapMatrixClass():
 		elif direction == "W" : 
 			if self.mapMatrix[x][y] & 1 == 1: return True
 		return False
+
+	def setVisited(self,x,y):
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
+	
+	def wasVisited(self,x,y):		#Nie sprawdzona
+		if self.mapMatrix[x][y] & 16 == 16: return True
+		else: return False
+		
+	def setNotAvailable(self,x,y):
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
+	
+	def isNotAvailable(self,x,y):	#Nie sprawdzona
+		if self.mapMatrix[x][y] & 32 == 32: return True
+		else: return False
 		
 	def drawMatrix(self):
 		sys.stdout.flush()
