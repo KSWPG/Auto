@@ -1,11 +1,12 @@
 import numpy as np
 import sys
+import random
 
 class mapMatrixClass():
 	def __init__(self,x,y):
-		self.x = x
-		self.y = y
-		self.mapMatrix = np.zeros((x,y),dtype=np.byte)
+		self.xSize = x
+		self.ySize = y
+		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
 	def prepareTable(self):		#metoda tylko do testow tylko dla tablicy 10X10
 		self.setSolidWall(0,0,"W")
@@ -152,6 +153,35 @@ class mapMatrixClass():
 		self.setSolidWall(9,9,"E")
 		self.setSolidWall(9,9,"N")
 
+	def generateRandomMap(self):
+		self.generateMapEdge()
+		for i in range(0,self.xSize):
+			for j in range(0,self.ySize):
+				if(random.randint(0,1) == 1):
+					self.setSolidWall(i,j,"N")
+					if(i != self.xSize-1):
+						self.setSolidWall(i+1,j,"S")
+				if(random.randint(0,1) == 1):
+					 self.setSolidWall(i,j,"E")
+					 if(j != self.ySize-1):
+						 self.setSolidWall(i,j+1,"W")
+				if(random.randint(0,1) == 1):
+					 self.setSolidWall(i,j,"S")
+					 if(i != 0):
+						 self.setSolidWall(i-1,j,"N")
+				if(random.randint(0,1) == 1):
+					self.setSolidWall(i,j,"W")
+					if(j !=0):
+						self.setSolidWall(i,j-1,"E")
+
+	def generateMapEdge(self):
+		for i in range(0,self.xSize):
+			self.setSolidWall(i,self.ySize-1,"N")
+			self.setSolidWall(i,0,"S")
+		for i in range(0,self.ySize):
+			self.setSolidWall(0,i,"W")
+			self.setSolidWall(self.xSize-1,i,"E")
+
 	def setSolidWall(self,x,y,direction):
 		if direction == "N" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
 		elif direction == "E" : self.mapMatrix[x][y] = self.mapMatrix[x][y] | 4
@@ -183,9 +213,9 @@ class mapMatrixClass():
 		if self.mapMatrix[x][y] & 32 == 32: return True
 		else: return False
 
-	def findWayToNearestNoVisitedSpot(self,robotX,robotY):
-		pathMap = np.zeros((10,10),dtype=np.byte)
-		pathMap[robotX][robotY]=1
+	def findWayToNearestNoVisitedSpot(self,robotXposition,robotYposition):
+		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
+		pathMap[robotXposition][robotYposition]=1
 
 		actualValue=1
 		findX=0
@@ -194,8 +224,8 @@ class mapMatrixClass():
 
 		while (endLoop==0):
 			changeAmount=0
-			for i in range(0,10):
-				for j in range(0,10):
+			for i in range(0,self.xSize):
+				for j in range(0,self.ySize):
 					if(pathMap[i][j] == actualValue):
 						if(not self.isWallExist(i,j,"W")):
 							if(pathMap[i-1][j]==0):
@@ -236,37 +266,13 @@ class mapMatrixClass():
 				if(endLoop!=0):break
 			actualValue = actualValue + 1
 			if(changeAmount==0):
-				pathMap[0][0]=-1
-				return pathMap
+				raise Exception("Not found anymore no visited spot")
 
+		return self.findPathTo(findX,findY,robotXposition,robotYposition)
 
-		#wyznacz trase do znalecionego punktu
-		backPathMap = np.zeros((10,10),dtype=np.byte)
-		newValue = 1
-		while (pathMap[findX][findY] != 1):
-			backPathMap[findX][findY] = newValue
-			if(findX != 9 and pathMap[findX+1][findY] == actualValue-1):
-				findX = findX+1
-				actualValue = actualValue-1
-			elif(findX !=0  and pathMap[findX-1][findY] == actualValue-1):
-				findX = findX-1
-				actualValue = actualValue-1
-			elif(findY != 9 and pathMap[findX][findY+1] == actualValue-1):
-				findY = findY+1
-				actualValue = actualValue-1
-			elif(findY != 0 and pathMap[findX][findY-1] == actualValue-1):
-				findY = findY-1
-				actualValue = actualValue-1
-
-			newValue = newValue+1
-
-		backPathMap[findX][findY] = newValue
-		#print backPathMap
-		return backPathMap
-
-	def findWayToNearestNoVisitedSpot2(self,robotX,robotY,course):
-		pathMap = np.zeros((10,10),dtype=np.byte)
-		pathMap[robotX][robotY]=1
+	def findWayToNearestNoVisitedSpot2(self,robotXposition,robotYposition,course):
+		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
+		pathMap[robotXposition][robotYposition]=1
 
 		actualValue=1
 		findX=0
@@ -275,8 +281,8 @@ class mapMatrixClass():
 
 		while (endLoop==0):
 			changeAmount=0
-			for i in range(0,10):
-				for j in range(0,10):
+			for i in range(0,self.xSize):
+				for j in range(0,self.ySize):
 					if(pathMap[i][j] == actualValue):
 						if course == 0:
 							if(not self.isWallExist(i,j,"W")):
@@ -431,56 +437,75 @@ class mapMatrixClass():
 				if(endLoop!=0):break
 			actualValue = actualValue + 1
 			if(changeAmount==0):
-				pathMap[0][0]=-1
-				return pathMap
+				raise Exception("Not found anymore no visited spot")
 
+		return self.findPathTo(findX,findY,robotXposition,robotYposition)
 
-		#wyznacz trase do znalecionego punktu
-		backPathMap = np.zeros((10,10),dtype=np.byte)
-		newValue = 1
-		while (pathMap[findX][findY] != 1):
-			backPathMap[findX][findY] = newValue
-			if(findX != 9 and pathMap[findX+1][findY] == actualValue-1):
-				findX = findX+1
-				actualValue = actualValue-1
-			elif(findX !=0  and pathMap[findX-1][findY] == actualValue-1):
-				findX = findX-1
-				actualValue = actualValue-1
-			elif(findY != 9 and pathMap[findX][findY+1] == actualValue-1):
-				findY = findY+1
-				actualValue = actualValue-1
-			elif(findY != 0 and pathMap[findX][findY-1] == actualValue-1):
-				findY = findY-1
-				actualValue = actualValue-1
+	def findPathTo(self,pointX,pointY,fromX,fromY):
+		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
+		pathMap[pointX][pointY] = 1
+		actualValue = 1
+		endLoop=0
+		while (endLoop==0):
+			for i in range(0,self.xSize):
+				for j in range(0,self.ySize):
+					if(pathMap[i][j] == actualValue):
+						if(i != 0 and not self.isWallExist(i,j,"W")):
+							if(pathMap[i-1][j]==0):
+								pathMap[i-1][j]=actualValue+1
+								if(i-1 == fromX and j == fromY):
+									endLoop = 1
+									break
+						if(j != self.ySize-1 and not self.isWallExist(i,j,"N")):
+							if(pathMap[i][j+1]==0):
+								pathMap[i][j+1]=actualValue+1
+								if(i == fromX and j+1 == fromY):
+									endLoop = 1
+									break
+						if(i != self.xSize-1 and not self.isWallExist(i,j,"E")):
+							if(pathMap[i+1][j]==0):
+								pathMap[i+1][j]=actualValue+1
+								if(i+1 == fromX and j == fromY):
+									endLoop = 1
+									break
+						if(j !=0 and not self.isWallExist(i,j,"S")):
+							if(pathMap[i][j-1]==0):
+								pathMap[i][j-1]=actualValue+1
+								if(i == fromX and j-1 == fromY):
+									endLoop = 1
+									break
+				if(endLoop!=0):break
+			actualValue = actualValue+1
 
-			newValue = newValue+1
+		#print pathMap
+		return pathMap
 
-		backPathMap[findX][findY] = newValue
-		#print backPathMap
-		return backPathMap
-
-	def drawMatrix(self):
+	def drawMap(self):
 		sys.stdout.flush()
-		for k in range(0,self.x):
+
+		for k in range(0,self.xSize):
 			sys.stdout.write('____')
 		print("")
-		for i in range(self.y-1,-1,-1):
-			for k in range(0,2):
-				for j in range(0,self.x):
-					if(j is not 0):
-						if(self.isWallExist(j,i,"W")):
-							sys.stdout.write("|")
-							if(k==1 and self.isWallExist(j,i,"S")): sys.stdout.write("___")
-							elif(k==1 and i==0): sys.stdout.write("___")
-							else: sys.stdout.write("   ")
-						else:
-							if(k==1 and self.isWallExist(j,i,"S")): sys.stdout.write("____")
-							elif(k==1 and i==0): sys.stdout.write("____")
-							else: sys.stdout.write("    ")
-					else:
+		for rowNumber in range(self.ySize-1,-1,-1):
+			self.drawMatrixRow(rowNumber)
+
+	def drawMatrixRow(self,rowNumber):
+		for k in range(0,2):
+			for columnNumber in range(0,self.xSize):
+				if(columnNumber is not 0):
+					if(self.isWallExist(columnNumber,rowNumber,"W")):
 						sys.stdout.write("|")
-						if(k==1 and self.isWallExist(j,i,"S")): sys.stdout.write("___")
-						elif(k==1 and i==0): sys.stdout.write("___")
+						if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("___")
+						elif(k==1 and rowNumber==0): sys.stdout.write("___")
 						else: sys.stdout.write("   ")
-					if(j==self.x-1):sys.stdout.write("|")
-				print("")
+					else:
+						if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("____")
+						elif(k==1 and rowNumber==0): sys.stdout.write("____")
+						else: sys.stdout.write("    ")
+				else:
+					sys.stdout.write("|")
+					if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("___")
+					elif(k==1 and rowNumber==0): sys.stdout.write("___")
+					else: sys.stdout.write("   ")
+				if(columnNumber==self.xSize-1):sys.stdout.write("|")
+			print("")
