@@ -3,6 +3,8 @@ import numpy as np
 
 #from Package import MotorControl
 from mapMatrixClass import mapMatrixClass
+from simulationMapMatrixClass import simulationMapMatrixClass
+
 
 class robotClass:
 	def __init__(self):
@@ -15,7 +17,7 @@ class robotClass:
 		#/########################
 
 		#wykorzystwane tylko do testowania algorytmu potem do usuniecia
-		self.simulationMap = mapMatrixClass(100,100)
+		self.simulationMap = simulationMapMatrixClass(10,10)
 		self.simulationMap.prepareTable()
 
 		self.course = 0
@@ -24,7 +26,7 @@ class robotClass:
 
 		self.moves=0
 
-		self.map = mapMatrixClass(100,100)
+		self.map = mapMatrixClass(10,10)
 
 	def addToCourse(self, angle):
 		if ((angle == 90) or (angle == 180) or (angle == 270)):
@@ -34,7 +36,7 @@ class robotClass:
 			elif course == 450: self.course = 90
 			elif course == 540: self.course = 180
 		else:
-			 raise Exception('Wartosc angle powinna wynosic 90,180 lub 270.')
+			 raise Exception('The value of the angle should be 90,180 or 270.')
 
 	def checkSensor(self):
 		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.course
