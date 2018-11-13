@@ -83,7 +83,7 @@ class robotClass:
 		self.addToCourse(270)
 		self.goForward()
 
-	def goTo(self,pathMap):
+	def goByPath(self,pathMap):
 		while (pathMap[self.x][self.y] != 1):
 			actualValue = pathMap[self.x][self.y]
 
