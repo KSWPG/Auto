@@ -7,6 +7,7 @@ import numpy as np
 
 def mappingAlgorithm1(robot):
 	while True:
+		print("X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.x,robot.y)
@@ -102,5 +103,9 @@ def showHowManyMovesIsNeededToMap():
 	for i in range(0,100):
 		print(matrix[i])
 
+def quickTest():
+	robot = robotClass()
+	mappingAlgorithm1(robot)
+	robot.map.drawMap()
 
-testAlgorithmsHowManyMovesIsNeeded()
+quickTest()
