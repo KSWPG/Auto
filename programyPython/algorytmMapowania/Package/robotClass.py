@@ -26,7 +26,7 @@ class robotClass:
 
 		self.moves=0
 
-		self.map = mapMatrixClass(10,10)
+		self.map = mapMatrixClass(1,1)
 
 	def addToCourse(self, angle):
 		if ((angle == 90) or (angle == 180) or (angle == 270)):
@@ -44,22 +44,32 @@ class robotClass:
 			self.map.setSolidWall(self.x,self.y,"N")
 			if self.y != self.map.ySize-1:
 				self.map.setSolidWall(self.x,self.y+1,"S")
+		elif self.map.addNewRow(self.y,"N"):
+			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"E"):
 			self.map.setSolidWall(self.x,self.y,"E")
 			if self.x !=self.map.xSize-1:
 				self.map.setSolidWall(self.x+1,self.y,"W")
+		elif self.map.addNewColumn(self.x,"E"):
+			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"S"):
 			self.map.setSolidWall(self.x,self.y,"S")
 			if self.y !=0:
 				self.map.setSolidWall(self.x,self.y-1,"N")
+		elif self.map.addNewRow(self.y,"S"):
+			self.y = self.y + 1
 
 		if self.simulationMap.isWallExist(self.x,self.y,"W"):
 			self.map.setSolidWall(self.x,self.y,"W")
 			if self.x !=0:
 				self.map.setSolidWall(self.x-1,self.y,"E")
+		elif self.map.addNewColumn(self.x,"W"):
+			self.x = self.x +1
+
 		self.map.setVisited(self.x,self.y)
+
 
 	def goForward(self):
 		#we wlaciwym kodzie tylko porusz sie za pomoca silnikow o jedno pole

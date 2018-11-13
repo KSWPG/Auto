@@ -56,6 +56,29 @@ class mapMatrixClass():
 		if(x < 0 or x >= self.xSize or y < 0 or y >= self.ySize):
 			raise Exception("Matrix indexes outside the scope")
 
+	def addNewRow(self,y,direction):
+		if direction == "N" and y == self.ySize-1:
+			self.mapMatrix = np.insert(self.mapMatrix, [self.ySize],0,axis=1)
+			self.ySize = self.ySize +1
+			return True
+		elif direction == "S" and y == 0:
+			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=1)
+			self.ySize = self.ySize +1
+			return True
+		else: return False
+
+	def addNewColumn(self,x,direction):
+		if direction == "E" and x == self.xSize-1:
+			self.mapMatrix = np.insert(self.mapMatrix, [self.xSize],0,axis=0)
+			self.xSize = self.xSize +1
+			return True
+		elif direction == "W" and x == 0:
+			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=0)
+			self.xSize = self.xSize +1
+			return True
+		else: return False
+
+
 	def findWayToNearestNoVisitedSpot(self,robotXposition,robotYposition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 		pathMap[robotXposition][robotYposition]=1

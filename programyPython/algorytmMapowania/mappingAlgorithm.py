@@ -7,6 +7,7 @@ import numpy as np
 
 def mappingAlgorithm1(robot):
 	while True:
+		print("X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.x,robot.y)
