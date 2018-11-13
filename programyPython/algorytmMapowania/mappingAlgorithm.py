@@ -102,5 +102,9 @@ def showHowManyMovesIsNeededToMap():
 	for i in range(0,100):
 		print(matrix[i])
 
+def quickTest():
+	robot = robotClass()
+	mappingAlgorithm1(robot)
+	robot.map.drawMap()
 
-testAlgorithmsHowManyMovesIsNeeded()
+quickTest()
