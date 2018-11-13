@@ -45,15 +45,14 @@ class robotClass:
 			if self.y != self.map.ySize-1:
 				self.map.setSolidWall(self.x,self.y+1,"S")
 		elif self.map.addNewRow(self.y,"N"):
-			print()
-
+			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"E"):
 			self.map.setSolidWall(self.x,self.y,"E")
 			if self.x !=self.map.xSize-1:
 				self.map.setSolidWall(self.x+1,self.y,"W")
 		elif self.map.addNewColumn(self.x,"E"):
-			print()
+			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"S"):
 			self.map.setSolidWall(self.x,self.y,"S")
