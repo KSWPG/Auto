@@ -366,6 +366,22 @@ class mapMatrixClass():
 		#print pathMap
 		return pathMap
 
+	def completeMap(self):
+		for i in range(0,self.xSize):
+			for j in range(0,self.ySize):
+				if(not self.wasVisited(i,j)):
+					self.setNotAvailable(i,j)
+
+				if(i != 0 and self.isWallExist(i-1,j,"E")):
+					self.setSolidWall(i,j,"W")
+				if(i != self.xSize-1 and self.isWallExist(i+1,j,"W")):
+					self.setSolidWall(i,j,"E")
+				if(j != 0 and self.isWallExist(i,j-1,"N")):
+					self.setSolidWall(i,j,"S")
+				if(j != self.ySize-1 and self.isWallExist(i,j+1,"S")):
+					self.setSolidWall(i,j,"N")
+
+
 	def drawMap(self):
 		sys.stdout.flush()
 

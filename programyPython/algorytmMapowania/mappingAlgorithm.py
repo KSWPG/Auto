@@ -7,8 +7,8 @@ import numpy as np
 
 def mappingAlgorithm1(robot):
 	while True:
-		print("Size X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
-		print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
+		#print("Size X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
+		#print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.x,robot.y)
@@ -17,8 +17,7 @@ def mappingAlgorithm1(robot):
 			if(str(e) == "Not found anymore no visited spot"):
 				break
 
-
-
+	robot.map.completeMap()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
 	#robot.map.drawMatrix()
 
@@ -32,6 +31,7 @@ def mappingAlgorithm2(robot):
 			if(str(e) == "Not found anymore no visited spot"):
 				break
 
+	robot.map.completeMap()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
 	#robot.map.drawMatrix()
 
@@ -102,4 +102,13 @@ def quickTest():
 	mappingAlgorithm1(robot)
 	robot.map.drawMap()
 
-testAlgorithmsHowManyMovesIsNeeded()
+def mappingTest():
+	simulationMap = simulationMapMatrixClass(25,10)
+	simulationMap.generateRandomMap()
+	simulationMap.drawMap()
+	robot = robotClass()
+	robot.simulationMap = simulationMap
+	mappingAlgorithm1(robot)
+	robot.map.drawMap()
+
+mappingTest()
