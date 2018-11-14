@@ -70,7 +70,6 @@ class robotClass:
 
 		self.map.setVisited(self.x,self.y)
 
-
 	def goForward(self):
 		#we wlaciwym kodzie tylko porusz sie za pomoca silnikow o jedno pole
 		if self.course == 0: self.y = self.y + 1

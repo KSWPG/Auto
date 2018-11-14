@@ -4,25 +4,34 @@ import random
 
 class simulationMapMatrixClass(mapMatrixClass):
 	def generateRandomMap(self):
+		self.setAllWallExist()
+		self.randomlyRemoveTheWalls()
 		self.generateMapEdge()
+
+	def setAllWallExist(self):
+		for i in range(0,self.xSize):
+			for j in range(0,self.ySize):
+				self.mapMatrix[i][j] = 15
+
+	def randomlyRemoveTheWalls(self):
 		for i in range(0,self.xSize):
 			for j in range(0,self.ySize):
 				if(random.randint(0,1) == 1):
-					self.setSolidWall(i,j,"N")
-					if(i != self.xSize-1):
-						self.setSolidWall(i+1,j,"S")
+					self.removeWall(i,j,"N")
+					if(j != self.ySize-1):
+						self.removeWall(i,j+1,"S")
 				if(random.randint(0,1) == 1):
-					 self.setSolidWall(i,j,"E")
-					 if(j != self.ySize-1):
-						 self.setSolidWall(i,j+1,"W")
+					 self.removeWall(i,j,"E")
+					 if(i != self.xSize-1):
+						 self.removeWall(i+1,j,"W")
 				if(random.randint(0,1) == 1):
-					 self.setSolidWall(i,j,"S")
-					 if(i != 0):
-						 self.setSolidWall(i-1,j,"N")
+					 self.removeWall(i,j,"S")
+					 if(j != 0):
+						 self.removeWall(i,j-1,"N")
 				if(random.randint(0,1) == 1):
-					self.setSolidWall(i,j,"W")
-					if(j !=0):
-						self.setSolidWall(i,j-1,"E")
+					self.removeWall(i,j,"W")
+					if(i !=0):
+						self.removeWall(i-1,j,"E")
 
 	def generateMapEdge(self):
 		for i in range(0,self.xSize):

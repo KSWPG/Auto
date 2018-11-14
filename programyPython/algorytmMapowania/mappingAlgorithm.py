@@ -7,7 +7,8 @@ import numpy as np
 
 def mappingAlgorithm1(robot):
 	while True:
-		print("X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
+		print("Size X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
+		print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.x,robot.y)
@@ -44,39 +45,32 @@ def testAlgorithmsHowManyMovesIsNeeded():
 	for z in range(0,10):
 		simulationMap = simulationMapMatrixClass(10,10)
 		simulationMap.generateRandomMap()
-		for i in range(0,simulationMap.xSize):
-			for j in range(0,simulationMap.ySize):
-				for k in [0,90,180,270]:
-					robot = robotClass()
-					robot.x = i
-					robot.y = j
-					robot.simulationMap=simulationMap
+		simulationMap.drawMap()
+		robot = robotClass()
+		robot.simulationMap=simulationMap
 
-					start_time = time.time()
-					mappingAlgorithm1(robot)
-					mappingAlgorithm1Time = time.time()-start_time
-					algorithm1Moves = robot.moves
+		start_time = time.time()
+		mappingAlgorithm1(robot)
+		mappingAlgorithm1Time = time.time()-start_time
+		algorithm1Moves = robot.moves
 
-					robot2 = robotClass()
-					robot2.x = i
-					robot2.y = j
-					robot2.course = k
-					robot2.simulationMap = simulationMap
+		robot2 = robotClass()
+		robot2.simulationMap = simulationMap
 
-					start_time = time.time()
-					mappingAlgorithm2(robot2)
-					mappingAlgorithm2Time = time.time()-start_time
-					algorithm2Moves = robot2.moves
+		start_time = time.time()
+		mappingAlgorithm2(robot2)
+		mappingAlgorithm2Time = time.time()-start_time
+		algorithm2Moves = robot2.moves
 
-					timeDifferecne = mappingAlgorithm2Time - mappingAlgorithm1Time
-					if (timeDifferecne > theBestMappingAlgorithm1Time):
-						theBestMappingAlgorithm1Time = timeDifferecne
-					elif(timeDifferecne < theBestMappingAlgorithm2Time):
-						theBestMappingAlgorithm2Time = timeDifferecne
+		timeDifferecne = mappingAlgorithm2Time - mappingAlgorithm1Time
+		if (timeDifferecne > theBestMappingAlgorithm1Time):
+			theBestMappingAlgorithm1Time = timeDifferecne
+		elif(timeDifferecne < theBestMappingAlgorithm2Time):
+			theBestMappingAlgorithm2Time = timeDifferecne
 
-					if (algorithm1Moves < algorithm2Moves): better1 = better1 + 1
-					elif (algorithm1Moves > algorithm2Moves): better2 = better2 + 1
-					else: equal = equal + 1
+		if (algorithm1Moves < algorithm2Moves): better1 = better1 + 1
+		elif (algorithm1Moves > algorithm2Moves): better2 = better2 + 1
+		else: equal = equal + 1
 		print(z)
 
 	print("mappingAlgorithm1 byl lepszy %i razy" % better1)
@@ -108,4 +102,4 @@ def quickTest():
 	mappingAlgorithm1(robot)
 	robot.map.drawMap()
 
-quickTest()
+testAlgorithmsHowManyMovesIsNeeded()

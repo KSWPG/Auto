@@ -8,7 +8,7 @@ class mapMatrixClass():
 		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
 	def setSolidWall(self,x,y,direction):
-		self.checkVariablesForMatrix(x,y)
+		#self.checkVariablesForMatrix(x,y)
 		if direction == "N":
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
 		elif direction == "E":
@@ -91,14 +91,13 @@ class mapMatrixClass():
 	def addNewColumn(self,x,direction):
 		if direction == "E" and x == self.xSize-1:
 			self.mapMatrix = np.insert(self.mapMatrix, [self.xSize],0,axis=0)
-			self.xSize = self.xSize +1
+			self.xSize = self.xSize + 1
 			return True
 		elif direction == "W" and x == 0:
 			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=0)
-			self.xSize = self.xSize +1
+			self.xSize = self.xSize + 1
 			return True
 		else: return False
-
 
 	def findWayToNearestNoVisitedSpot(self,robotXposition,robotYposition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
