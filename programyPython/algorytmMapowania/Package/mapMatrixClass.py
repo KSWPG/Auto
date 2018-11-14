@@ -20,6 +20,19 @@ class mapMatrixClass():
 		else:
 			raise Exception("Wrong parameter for direction")
 
+	def removeWall(self,x,y,direction):
+		self.checkVariablesForMatrix(x,y)
+		if direction == "N":
+			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 247
+		elif direction == "E":
+			 self.mapMatrix[x][y] = self.mapMatrix[x][y] & 251
+		elif direction == "S":
+			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 253
+		elif direction == "W":
+			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 254
+		else:
+			raise Exception("Wrong parameter for direction")
+
 	def isWallExist(self,x,y,direction):
 		self.checkVariablesForMatrix(x,y)
 		if direction == "N" :
@@ -38,6 +51,10 @@ class mapMatrixClass():
 		self.checkVariablesForMatrix(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
 
+	def setUnVisited(self,x,y):
+		self.checkVariablesForMatrix(x,y)
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 239
+
 	def wasVisited(self,x,y):
 		self.checkVariablesForMatrix(x,y)
 		if self.mapMatrix[x][y] & 16 == 16: return True
@@ -46,6 +63,10 @@ class mapMatrixClass():
 	def setNotAvailable(self,x,y):
 		self.checkVariablesForMatrix(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
+
+	def setAvailable(self,x,y):
+		self.checkVariablesForMatrix(x,y)
+		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 223
 
 	def isNotAvailable(self,x,y):
 		self.checkVariablesForMatrix(x,y)
