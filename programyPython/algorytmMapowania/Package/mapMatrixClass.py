@@ -2,9 +2,9 @@ import numpy as np
 import sys
 
 class mapMatrixClass():
-	def __init__(self,x,y):
-		self.xSize = x
-		self.ySize = y
+	def __init__(self,xSize,ySize):
+		self.xSize = xSize
+		self.ySize = ySize
 		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
 	def setWallsInContiguousField(self,x,y,direction):
@@ -13,7 +13,7 @@ class mapMatrixClass():
 		xForContiguousField = x
 		yForContiguousField = y
 		directionForContiguousField = ""
-		
+
 		if(direction == "N"):
 			directionForContiguousField == "S"
 			yForContiguousField = y + 1
@@ -31,7 +31,6 @@ class mapMatrixClass():
 			self.setWall(xForContiguousField,yForContiguousField,directionForContiguousField)
 		except:
 			pass
-
 
 	def setWall(self,x,y,direction):
 		self.checkVariablesForMatrix(x,y)
