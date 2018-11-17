@@ -33,7 +33,7 @@ class mapMatrixClass():
 			pass
 
 	def setWall(self,x,y,direction):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		if direction == "N":
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
 		elif direction == "E":
@@ -46,7 +46,7 @@ class mapMatrixClass():
 			raise Exception("Wrong parameter for direction")
 
 	def removeWall(self,x,y,direction):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		if direction == "N":
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 247
 		elif direction == "E":
@@ -59,7 +59,7 @@ class mapMatrixClass():
 			raise Exception("Wrong parameter for direction")
 
 	def isWallExist(self,x,y,direction):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		if direction == "N" :
 			if self.mapMatrix[x][y] & 8 == 8: return True
 		elif direction == "E" :
@@ -73,32 +73,32 @@ class mapMatrixClass():
 		return False
 
 	def setVisited(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
 
 	def setUnVisited(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 239
 
 	def wasVisited(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		if self.mapMatrix[x][y] & 16 == 16: return True
 		else: return False
 
 	def setNotAvailable(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
 
 	def setAvailable(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 223
 
 	def isNotAvailable(self,x,y):
-		self.checkVariablesForMatrix(x,y)
+		self.checkScopeOfIndex(x,y)
 		if self.mapMatrix[x][y] & 32 == 32: return True
 		else: return False
 
-	def checkVariablesForMatrix(self,x,y):
+	def checkScopeOfIndex(self,x,y):
 		if(x < 0 or x >= self.xSize or y < 0 or y >= self.ySize):
 			raise Exception("Matrix indexes outside the scope")
 

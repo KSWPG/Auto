@@ -63,24 +63,24 @@ class robotClass:
 		self.map.setVisited(self.x,self.y)
 
 	def goForward(self):
-		#we wlaciwym kodzie tylko porusz sie za pomoca silnikow o jedno pole
+		#motors.ForwardOneField
 		if self.course == 0: self.y = self.y + 1
 		elif self.course == 90: self.x = self.x + 1
 		elif self.course == 180: self.y = self.y - 1
 		elif self.course == 270: self.x = self.x - 1
 
 	def goRight(self):
-		#turnRight
+		#motors.turnRight
 		self.addToCourse(90)
 		self.goForward()
 
 	def goBack(self):
-		#turnBack
+		#motors.turnBack
 		self.addToCourse(180)
 		self.goForward()
 
 	def goLeft(self):
-		#turnLeft
+		#motors.turnLeft
 		self.addToCourse(270)
 		self.goForward()
 
