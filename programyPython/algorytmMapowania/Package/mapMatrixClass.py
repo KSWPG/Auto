@@ -7,8 +7,34 @@ class mapMatrixClass():
 		self.ySize = y
 		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
+	def setWallsInContiguousField(self,x,y,direction):
+		self.setWall(x,y,direction)
+
+		xForContiguousField = x
+		yForContiguousField = y
+		directionForContiguousField = ""
+		
+		if(direction == "N"):
+			directionForContiguousField == "S"
+			yForContiguousField = y + 1
+		elif(direction == "S"):
+			directionForContiguousField == "N"
+			yForContiguousField = y - 1
+		elif(direction == "E"):
+			directionForContiguousField == "W"
+			xForContiguousField = x + 1
+		elif(direction == "W"):
+			directionForContiguousField == "E"
+			xForContiguousField = x - 1
+
+		try:
+			self.setWall(xForContiguousField,yForContiguousField,directionForContiguousField)
+		except:
+			pass
+
+
 	def setWall(self,x,y,direction):
-		#self.checkVariablesForMatrix(x,y)
+		self.checkVariablesForMatrix(x,y)
 		if direction == "N":
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
 		elif direction == "E":

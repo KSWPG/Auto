@@ -41,30 +41,22 @@ class robotClass:
 	def checkSensor(self):
 		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.course
 		if self.simulationMap.isWallExist(self.x,self.y,"N"):
-			self.map.setWall(self.x,self.y,"N")
-			if self.y != self.map.ySize-1:
-				self.map.setWall(self.x,self.y+1,"S")
+			self.map.setWallsInContiguousField(self.x,self.y,"N")
 		elif self.map.addNewRow(self.y,"N"):
 			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"E"):
-			self.map.setWall(self.x,self.y,"E")
-			if self.x !=self.map.xSize-1:
-				self.map.setWall(self.x+1,self.y,"W")
+			self.map.setWallsInContiguousField(self.x,self.y,"E")
 		elif self.map.addNewColumn(self.x,"E"):
 			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"S"):
-			self.map.setWall(self.x,self.y,"S")
-			if self.y !=0:
-				self.map.setWall(self.x,self.y-1,"N")
+			self.map.setWallsInContiguousField(self.x,self.y,"S")
 		elif self.map.addNewRow(self.y,"S"):
 			self.y = self.y + 1
 
 		if self.simulationMap.isWallExist(self.x,self.y,"W"):
-			self.map.setWall(self.x,self.y,"W")
-			if self.x !=0:
-				self.map.setWall(self.x-1,self.y,"E")
+			self.map.setWallsInContiguousField(self.x,self.y,"W")
 		elif self.map.addNewColumn(self.x,"W"):
 			self.x = self.x +1
 
