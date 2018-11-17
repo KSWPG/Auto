@@ -17,7 +17,7 @@ def mappingAlgorithm1(robot):
 			if(str(e) == "Not found anymore no visited spot"):
 				break
 
-	robot.map.completeMap()
+	robot.map.completeMapAfterMapping()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
 	#robot.map.drawMatrix()
 
@@ -31,7 +31,7 @@ def mappingAlgorithm2(robot):
 			if(str(e) == "Not found anymore no visited spot"):
 				break
 
-	robot.map.completeMap()
+	robot.map.completeMapAfterMapping()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
 	#robot.map.drawMatrix()
 

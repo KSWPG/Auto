@@ -391,7 +391,7 @@ class mapMatrixClass():
 		#print pathMap
 		return pathMap
 
-	def completeMap(self):
+	def completeMapAfterMapping(self):
 		for i in range(0,self.xSize):
 			for j in range(0,self.ySize):
 				if(not self.wasVisited(i,j)):
