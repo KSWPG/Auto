@@ -95,46 +95,41 @@ class robotClass:
 	def goByPath(self,pathMap):
 		while (pathMap[self.x][self.y] != 1):
 			actualValue = pathMap[self.x][self.y]
-
-			if self.course == 0:
-				if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
+			if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
+				if self.course == 0:
 					self.goRight()
-				elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
+				elif self.course == 90:
+					self.goForward()
+				elif self.course == 180:
 					self.goLeft()
-				elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
-					self.goForward()
-				elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
+				elif self.course == 270:
 					self.goBack()
-
-
-			elif self.course == 90:
-				if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
-					self.goForward()
-				elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
-					self.goBack()
-				elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
+			elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
+				if self.course == 0:
 					self.goLeft()
-				elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
+				elif self.course == 90:
+					self.goBack()
+				elif self.course == 180:
 					self.goRight()
-
-			elif self.course == 180:
-				if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
+				elif self.course == 270:
+					self.goForward()
+			elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
+				if self.course == 0:
+					self.goForward()
+				elif self.course == 90:
 					self.goLeft()
-				elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
-					self.goRight()
-				elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
+				elif self.course == 180:
 					self.goBack()
-				elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
-					self.goForward()
-
-			elif self.course == 270:
-				if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
-					self.goBack()
-				elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
-					self.goForward()
-				elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
+				elif self.course == 270:
 					self.goRight()
-				elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
+			elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
+				if self.course == 0:
+					self.goBack()
+				elif self.course == 90:
+					self.goRight()
+				elif self.course == 180:
+					self.goForward()
+				elif self.course == 270:
 					self.goLeft()
 
 			self.moves=self.moves+1
