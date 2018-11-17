@@ -1,0 +1,12 @@
+dla 10,000 losowo wygenerowanych map:
+mappingAlgorithm1 wykonal mniej ruchow 2953 razy
+mappingAlgorithm2 wykonal mniej ruchow 5559 razy
+algorytmy wykonaly tyle samo ruchow 1488 razy
+
+mappingAlgorithm1 byl szybszy 3146 razy
+mappingAlgorithm2 byl szybszy 6852 razy
+Algorytmy byly tak samo szybkie 2 razy
+
+W najlepszym wypadku mappingAlgorithm1 byl szybszy o 0.535089
+W najlepszym wypadku mappingAlgorithm2 byl szybszy o 0.609048
+
