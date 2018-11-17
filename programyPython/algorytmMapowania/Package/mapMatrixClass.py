@@ -7,7 +7,7 @@ class mapMatrixClass():
 		self.ySize = y
 		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
-	def setSolidWall(self,x,y,direction):
+	def setWall(self,x,y,direction):
 		#self.checkVariablesForMatrix(x,y)
 		if direction == "N":
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
@@ -373,14 +373,13 @@ class mapMatrixClass():
 					self.setNotAvailable(i,j)
 
 				if(i != 0 and self.isWallExist(i-1,j,"E")):
-					self.setSolidWall(i,j,"W")
+					self.setWall(i,j,"W")
 				if(i != self.xSize-1 and self.isWallExist(i+1,j,"W")):
-					self.setSolidWall(i,j,"E")
+					self.setWall(i,j,"E")
 				if(j != 0 and self.isWallExist(i,j-1,"N")):
-					self.setSolidWall(i,j,"S")
+					self.setWall(i,j,"S")
 				if(j != self.ySize-1 and self.isWallExist(i,j+1,"S")):
-					self.setSolidWall(i,j,"N")
-
+					self.setWall(i,j,"N")
 
 	def drawMap(self):
 		sys.stdout.flush()

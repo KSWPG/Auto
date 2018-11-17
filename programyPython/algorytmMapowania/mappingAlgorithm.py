@@ -130,4 +130,4 @@ def mappingTest():
 	mappingAlgorithm1(robot)
 	robot.map.drawMap()
 
-testAlgorithmsHowManyMovesIsNeeded()
+mappingTest()
