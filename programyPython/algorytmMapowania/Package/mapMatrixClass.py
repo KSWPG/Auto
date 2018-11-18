@@ -1,6 +1,8 @@
 import numpy as np
 import sys
 
+from DirectionEnum import DirectionEnum as Direction
+
 class mapMatrixClass():
 	def __init__(self,xSize,ySize):
 		self.xSize = xSize
@@ -14,17 +16,17 @@ class mapMatrixClass():
 		yForContiguousField = y
 		directionForContiguousField = ""
 
-		if(direction == "N"):
-			directionForContiguousField == "S"
+		if(direction == Direction.MAP_TOP):
+			directionForContiguousField == Direction.MAP_BOTTOM
 			yForContiguousField = y + 1
-		elif(direction == "S"):
-			directionForContiguousField == "N"
+		elif(direction == Direction.MAP_BOTTOM):
+			directionForContiguousField == Direction.MAP_TOP
 			yForContiguousField = y - 1
-		elif(direction == "E"):
-			directionForContiguousField == "W"
+		elif(direction == Direction.MAP_RIGHT):
+			directionForContiguousField == Direction.MAP_LEFT
 			xForContiguousField = x + 1
-		elif(direction == "W"):
-			directionForContiguousField == "E"
+		elif(direction == Direction.MAP_LEFT):
+			directionForContiguousField == Direction.MAP_RIGHT
 			xForContiguousField = x - 1
 
 		try:
@@ -34,39 +36,39 @@ class mapMatrixClass():
 
 	def setWall(self,x,y,direction):
 		self.checkScopeOfIndex(x,y)
-		if direction == "N":
+		if direction == Direction.MAP_TOP:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
-		elif direction == "E":
+		elif direction == Direction.MAP_RIGHT:
 			 self.mapMatrix[x][y] = self.mapMatrix[x][y] | 4
-		elif direction == "S":
+		elif direction == Direction.MAP_BOTTOM:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 2
-		elif direction == "W":
+		elif direction == Direction.MAP_LEFT:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 1
 		else:
 			raise Exception("Wrong parameter for direction")
 
 	def removeWall(self,x,y,direction):
 		self.checkScopeOfIndex(x,y)
-		if direction == "N":
+		if direction == Direction.MAP_TOP:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 247
-		elif direction == "E":
+		elif direction == Direction.MAP_RIGHT:
 			 self.mapMatrix[x][y] = self.mapMatrix[x][y] & 251
-		elif direction == "S":
+		elif direction == Direction.MAP_BOTTOM:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 253
-		elif direction == "W":
+		elif direction == Direction.MAP_LEFT:
 			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 254
 		else:
 			raise Exception("Wrong parameter for direction")
 
 	def isWallExist(self,x,y,direction):
 		self.checkScopeOfIndex(x,y)
-		if direction == "N" :
+		if direction == Direction.MAP_TOP :
 			if self.mapMatrix[x][y] & 8 == 8: return True
-		elif direction == "E" :
+		elif direction == Direction.MAP_RIGHT :
 			if self.mapMatrix[x][y] & 4 == 4: return True
-		elif direction == "S" :
+		elif direction == Direction.MAP_BOTTOM :
 			if self.mapMatrix[x][y] & 2 == 2: return True
-		elif direction == "W" :
+		elif direction == Direction.MAP_LEFT :
 			if self.mapMatrix[x][y] & 1 == 1: return True
 		else:
 			raise Exception("Wrong parameter for direction")
@@ -103,22 +105,22 @@ class mapMatrixClass():
 			raise Exception("Matrix indexes outside the scope")
 
 	def addNewRowIfNeeded(self,y,direction):
-		if direction == "N" and y == self.ySize-1:
+		if direction == Direction.MAP_TOP and y == self.ySize-1:
 			self.mapMatrix = np.insert(self.mapMatrix, [self.ySize],0,axis=1)
 			self.ySize = self.ySize +1
 			return True
-		elif direction == "S" and y == 0:
+		elif direction == Direction.MAP_BOTTOM and y == 0:
 			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=1)
 			self.ySize = self.ySize +1
 			return True
 		else: return False
 
 	def addNewColumnIfNeeded(self,x,direction):
-		if direction == "E" and x == self.xSize-1:
+		if direction == Direction.MAP_RIGHT and x == self.xSize-1:
 			self.mapMatrix = np.insert(self.mapMatrix, [self.xSize],0,axis=0)
 			self.xSize = self.xSize + 1
 			return True
-		elif direction == "W" and x == 0:
+		elif direction == Direction.MAP_LEFT and x == 0:
 			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=0)
 			self.xSize = self.xSize + 1
 			return True
@@ -138,7 +140,7 @@ class mapMatrixClass():
 			for i in range(0,self.xSize):
 				for j in range(0,self.ySize):
 					if(pathMap[i][j] == actualValue):
-						if(not self.isWallExist(i,j,"W")):
+						if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
 							if(pathMap[i-1][j]==0):
 								pathMap[i-1][j]=actualValue+1
 								changeAmount=changeAmount+1
@@ -147,7 +149,7 @@ class mapMatrixClass():
 									findY=j
 									endLoop=1
 									break
-						if(not self.isWallExist(i,j,"N")):
+						if(not self.isWallExist(i,j,Direction.MAP_TOP)):
 							if(pathMap[i][j+1]==0):
 								pathMap[i][j+1]=actualValue+1
 								changeAmount=changeAmount+1
@@ -156,7 +158,7 @@ class mapMatrixClass():
 									findY=j+1
 									endLoop=1
 									break
-						if(not self.isWallExist(i,j,"E")):
+						if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 							if(pathMap[i+1][j]==0):
 								pathMap[i+1][j]=actualValue+1
 								changeAmount=changeAmount+1
@@ -165,7 +167,7 @@ class mapMatrixClass():
 									findY=j
 									endLoop=1
 									break
-						if(not self.isWallExist(i,j,"S")):
+						if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 							if(pathMap[i][j-1]==0):
 								pathMap[i][j-1]=actualValue+1
 								changeAmount=changeAmount+1
@@ -196,7 +198,7 @@ class mapMatrixClass():
 				for j in range(0,self.ySize):
 					if(pathMap[i][j] == actualValue):
 						if course == 0:
-							if(not self.isWallExist(i,j,"W")):
+							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
 								if(pathMap[i-1][j]==0):
 									pathMap[i-1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -205,7 +207,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"N")):
+							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
 								if(pathMap[i][j+1]==0):
 									pathMap[i][j+1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -214,7 +216,7 @@ class mapMatrixClass():
 										findY=j+1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"E")):
+							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 								if(pathMap[i+1][j]==0):
 									pathMap[i+1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -223,7 +225,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"S")):
+							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 								if(pathMap[i][j-1]==0):
 									pathMap[i][j-1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -233,7 +235,7 @@ class mapMatrixClass():
 										endLoop=1
 										break
 						elif course == 90:
-							if(not self.isWallExist(i,j,"N")):
+							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
 								if(pathMap[i][j+1]==0):
 									pathMap[i][j+1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -242,7 +244,7 @@ class mapMatrixClass():
 										findY=j+1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"E")):
+							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 								if(pathMap[i+1][j]==0):
 									pathMap[i+1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -251,7 +253,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"S")):
+							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 								if(pathMap[i][j-1]==0):
 									pathMap[i][j-1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -260,7 +262,7 @@ class mapMatrixClass():
 										findY=j-1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"W")):
+							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
 								if(pathMap[i-1][j]==0):
 									pathMap[i-1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -270,7 +272,7 @@ class mapMatrixClass():
 										endLoop=1
 										break
 						elif course == 180:
-							if(not self.isWallExist(i,j,"E")):
+							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 								if(pathMap[i+1][j]==0):
 									pathMap[i+1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -279,7 +281,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"S")):
+							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 								if(pathMap[i][j-1]==0):
 									pathMap[i][j-1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -288,7 +290,7 @@ class mapMatrixClass():
 										findY=j-1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"W")):
+							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
 								if(pathMap[i-1][j]==0):
 									pathMap[i-1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -297,7 +299,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"N")):
+							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
 								if(pathMap[i][j+1]==0):
 									pathMap[i][j+1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -307,7 +309,7 @@ class mapMatrixClass():
 										endLoop=1
 										break
 						elif course ==270:
-							if(not self.isWallExist(i,j,"S")):
+							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 								if(pathMap[i][j-1]==0):
 									pathMap[i][j-1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -316,7 +318,7 @@ class mapMatrixClass():
 										findY=j-1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"W")):
+							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
 								if(pathMap[i-1][j]==0):
 									pathMap[i-1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -325,7 +327,7 @@ class mapMatrixClass():
 										findY=j
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"N")):
+							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
 								if(pathMap[i][j+1]==0):
 									pathMap[i][j+1]=actualValue+1
 									changeAmount=changeAmount+1
@@ -334,7 +336,7 @@ class mapMatrixClass():
 										findY=j+1
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,"E")):
+							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 								if(pathMap[i+1][j]==0):
 									pathMap[i+1][j]=actualValue+1
 									changeAmount=changeAmount+1
@@ -361,25 +363,25 @@ class mapMatrixClass():
 			for i in range(0,self.xSize):
 				for j in range(0,self.ySize):
 					if(pathMap[i][j] == actualValue):
-						if(i != 0 and not self.isWallExist(i,j,"W")):
+						if(i != 0 and not self.isWallExist(i,j,Direction.MAP_LEFT)):
 							if(pathMap[i-1][j]==0):
 								pathMap[i-1][j]=actualValue+1
 								if(i-1 == fromX and j == fromY):
 									endLoop = 1
 									break
-						if(j != self.ySize-1 and not self.isWallExist(i,j,"N")):
+						if(j != self.ySize-1 and not self.isWallExist(i,j,Direction.MAP_TOP)):
 							if(pathMap[i][j+1]==0):
 								pathMap[i][j+1]=actualValue+1
 								if(i == fromX and j+1 == fromY):
 									endLoop = 1
 									break
-						if(i != self.xSize-1 and not self.isWallExist(i,j,"E")):
+						if(i != self.xSize-1 and not self.isWallExist(i,j,Direction.MAP_RIGHT)):
 							if(pathMap[i+1][j]==0):
 								pathMap[i+1][j]=actualValue+1
 								if(i+1 == fromX and j == fromY):
 									endLoop = 1
 									break
-						if(j !=0 and not self.isWallExist(i,j,"S")):
+						if(j !=0 and not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
 							if(pathMap[i][j-1]==0):
 								pathMap[i][j-1]=actualValue+1
 								if(i == fromX and j-1 == fromY):
@@ -397,14 +399,14 @@ class mapMatrixClass():
 				if(not self.wasVisited(i,j)):
 					self.setNotAvailable(i,j)
 
-				if(i != 0 and self.isWallExist(i-1,j,"E")):
-					self.setWall(i,j,"W")
-				if(i != self.xSize-1 and self.isWallExist(i+1,j,"W")):
-					self.setWall(i,j,"E")
-				if(j != 0 and self.isWallExist(i,j-1,"N")):
-					self.setWall(i,j,"S")
-				if(j != self.ySize-1 and self.isWallExist(i,j+1,"S")):
-					self.setWall(i,j,"N")
+				if(i != 0 and self.isWallExist(i-1,j,Direction.MAP_RIGHT)):
+					self.setWall(i,j,Direction.MAP_LEFT)
+				if(i != self.xSize-1 and self.isWallExist(i+1,j,Direction.MAP_LEFT)):
+					self.setWall(i,j,Direction.MAP_RIGHT)
+				if(j != 0 and self.isWallExist(i,j-1,Direction.MAP_TOP)):
+					self.setWall(i,j,Direction.MAP_BOTTOM)
+				if(j != self.ySize-1 and self.isWallExist(i,j+1,Direction.MAP_BOTTOM)):
+					self.setWall(i,j,Direction.MAP_TOP)
 
 	def drawMap(self):
 		sys.stdout.flush()
@@ -419,18 +421,18 @@ class mapMatrixClass():
 		for k in range(0,2):
 			for columnNumber in range(0,self.xSize):
 				if(columnNumber is not 0):
-					if(self.isWallExist(columnNumber,rowNumber,"W")):
+					if(self.isWallExist(columnNumber,rowNumber,Direction.MAP_LEFT)):
 						sys.stdout.write("|")
-						if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("___")
+						if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("___")
 						elif(k==1 and rowNumber==0): sys.stdout.write("___")
 						else: sys.stdout.write("   ")
 					else:
-						if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("____")
+						if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("____")
 						elif(k==1 and rowNumber==0): sys.stdout.write("____")
 						else: sys.stdout.write("    ")
 				else:
 					sys.stdout.write("|")
-					if(k==1 and self.isWallExist(columnNumber,rowNumber,"S")): sys.stdout.write("___")
+					if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("___")
 					elif(k==1 and rowNumber==0): sys.stdout.write("___")
 					else: sys.stdout.write("   ")
 				if(columnNumber==self.xSize-1):sys.stdout.write("|")
