@@ -13,8 +13,9 @@ class MapMatrixClass():
 	def setWallsInContiguousField(self,position,direction):
 		self.setWall(position,direction)
 
-		positionForContiguousField = position
-		directionForContiguousField = ""
+		positionForContiguousField = PositionClass()
+		positionForContiguousField.copyFrom(position)
+		directionForContiguousField = Direction.MAP_TOP
 
 		if(direction == Direction.MAP_TOP):
 			directionForContiguousField == Direction.MAP_BOTTOM
@@ -50,20 +51,21 @@ class MapMatrixClass():
 	def removeWallsInContiguousField(self,position,direction):
 		self.removeWall(position,direction)
 
-		positionForContiguousField = position
-		directionForContiguousField = ""
+		positionForContiguousField = PositionClass()
+		positionForContiguousField.copyFrom(position)
+		directionForContiguousField = Direction.MAP_TOP
 
 		if(direction == Direction.MAP_TOP):
-			directionForContiguousField == Direction.MAP_BOTTOM
+			directionForContiguousField = Direction.MAP_BOTTOM
 			positionForContiguousField.y = positionForContiguousField.y + 1
 		elif(direction == Direction.MAP_BOTTOM):
-			directionForContiguousField == Direction.MAP_TOP
+			directionForContiguousField = Direction.MAP_TOP
 			positionForContiguousField.y = positionForContiguousField.y - 1
 		elif(direction == Direction.MAP_RIGHT):
-			directionForContiguousField == Direction.MAP_LEFT
+			directionForContiguousField = Direction.MAP_LEFT
 			positionForContiguousField.x = positionForContiguousField.x + 1
 		elif(direction == Direction.MAP_LEFT):
-			directionForContiguousField == Direction.MAP_RIGHT
+			directionForContiguousField = Direction.MAP_RIGHT
 			positionForContiguousField.x = positionForContiguousField.x - 1
 
 		try:
@@ -170,45 +172,50 @@ class MapMatrixClass():
 					if(pathMap[position.x][position.y] == actualValue):
 						if(not self.isWallExist(position,Direction.MAP_LEFT)):
 							if(pathMap[position.x-1][position.y] == 0):
-								positionToCheck = position
+								positionToCheck = PositionClass()
+								positionToCheck.copyFrom(position)
 								positionToCheck.x = positionToCheck.x -1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 								changeAmount = changeAmount + 1
 								if(not self.wasVisited(positionToCheck)):
-									foundPosition = positionToCheck
+									foundPosition.copyFrom(positionToCheck)
 									endLoop = 1
 									break
 						if(not self.isWallExist(position,Direction.MAP_TOP)):
 							if(pathMap[position.x][position.y + 1] == 0):
-								positionToCheck = position
+								positionToCheck = PositionClass()
+								positionToCheck.copyFrom(position)
 								positionToCheck.y = positionToCheck.y + 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 								changeAmount = changeAmount + 1
 								if(not self.wasVisited(positionToCheck)):
-									foundPosition = positionToCheck
+									foundPosition.copyFrom(positionToCheck)
 									endLoop = 1
 									break
 						if(not self.isWallExist(position,Direction.MAP_RIGHT)):
 							if(pathMap[position.x+1][position.y] == 0):
-								positionToCheck = position
+								positionToCheck = PositionClass()
+								positionToCheck.copyFrom(position)
 								positionToCheck.x = positionToCheck.x + 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 								changeAmount = changeAmount + 1
 								if(not self.wasVisited(positionToCheck)):
-									foundPosition = positionToCheck
+									foundPosition.copyFrom(positionToCheck)
 									endLoop=1
 									break
 						if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 							if(pathMap[position.x][position.y-1] == 0):
-								positionToCheck = position
+								positionToCheck = PositionClass()
+								positionToCheck.copyFrom(position)
 								positionToCheck.y = positionToCheck.y - 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 								changeAmount = changeAmount + 1
 								if(not self.wasVisited(positionToCheck)):
-									foundPosition = positionToCheck
+									foundPosition.copyFrom(positionToCheck)
 									endLoop = 1
 									break
 				if(endLoop!=0):break
+
 			actualValue = actualValue + 1
 			if(changeAmount==0):
 				raise Exception("Not found anymore no visited spot")
@@ -232,168 +239,167 @@ class MapMatrixClass():
 						if position.course == 0:
 							if(not self.isWallExist(position,Direction.MAP_LEFT)):
 								if(pathMap[position.x-1][position.y] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.x = positionToCheck.x -1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_TOP)):
 								if(pathMap[position.x][position.y + 1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
 								if(pathMap[position.x+1][position.y] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.x = positionToCheck.x + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop=1
 										break
 							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 								if(pathMap[position.x][position.y-1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 						elif position.course == 90:
 							if(not self.isWallExist(position,Direction.MAP_TOP)):
 								if(pathMap[position.x][position.y + 1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
 								if(pathMap[position.x+1][position.y] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.x = positionToCheck.x + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop=1
 										break
 							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 								if(pathMap[position.x][position.y-1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_LEFT)):
 								if(pathMap[position.x-1][position.y] == 0):
-									positionToCheck = position
-									positionToCheck.x = positionToCheck.x -1
+									positionToCheck.copyFrom(position)
+									positionToCheck.x = positionToCheck.x - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 						elif position.course == 180:
 							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
 								if(pathMap[position.x+1][position.y] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.x = positionToCheck.x + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop=1
 										break
 							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 								if(pathMap[position.x][position.y-1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_LEFT)):
 								if(pathMap[position.x-1][position.y] == 0):
-									positionToCheck = position
-									positionToCheck.x = positionToCheck.x -1
+									positionToCheck.copyFrom(position)
+									positionToCheck.x = positionToCheck.x - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_TOP)):
 								if(pathMap[position.x][position.y + 1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 						elif position.course ==270:
 							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 								if(pathMap[position.x][position.y-1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_LEFT)):
 								if(pathMap[position.x-1][position.y] == 0):
-									positionToCheck = position
-									positionToCheck.x = positionToCheck.x -1
+									positionToCheck.copyFrom(position)
+									positionToCheck.x = positionToCheck.x - 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_TOP)):
 								if(pathMap[position.x][position.y + 1] == 0):
-									positionToCheck = position
+									positionToCheck.copyFrom(position)
 									positionToCheck.y = positionToCheck.y + 1
 									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
 									changeAmount = changeAmount + 1
 									if(not self.wasVisited(positionToCheck)):
-										foundPosition = positionToCheck
+										foundPosition.copyFrom(positionToCheck)
 										endLoop = 1
 										break
 							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
-								if(not self.isWallExist(position,Direction.MAP_RIGHT)):
-									if(pathMap[position.x+1][position.y] == 0):
-										positionToCheck = position
-										positionToCheck.x = positionToCheck.x + 1
-										pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-										changeAmount = changeAmount + 1
-										if(not self.wasVisited(positionToCheck)):
-											foundPosition = positionToCheck
-											endLoop=1
-											break
+								if(pathMap[position.x+1][position.y] == 0):
+									positionToCheck.copyFrom(position)
+									positionToCheck.x = positionToCheck.x + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition.copyFrom(positionToCheck)
+										endLoop=1
+										break
 
 
 				if(endLoop!=0):break
@@ -414,57 +420,75 @@ class MapMatrixClass():
 				for position.y in range(0,self.ySize):
 					if(pathMap[position.x][position.y] == actualValue):
 						if(position.x != 0 and not self.isWallExist(position,Direction.MAP_LEFT)):
-							positionToCheck = position
+							positionToCheck = PositionClass()
+							positionToCheck.copyFrom(position)
 							positionToCheck.x = positionToCheck.x - 1
 							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								if(positionToCheck == fromPosition):
+								if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
 									endLoop = 1
 									break
 						if(position.y != self.ySize-1 and not self.isWallExist(position,Direction.MAP_TOP)):
-							positionToCheck = position
+							positionToCheck = PositionClass()
+							positionToCheck.copyFrom(position)
 							positionToCheck.y = positionToCheck.y + 1
 							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								if(positionToCheck == fromPosition):
+								if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
 									endLoop = 1
 									break
 						if(position.x != self.xSize-1 and not self.isWallExist(position,Direction.MAP_RIGHT)):
-							positionToCheck = position
+							positionToCheck = PositionClass()
+							positionToCheck.copyFrom(position)
 							positionToCheck.x = positionToCheck.x + 1
 							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								if(positionToCheck == fromPosition):
+								if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
 									endLoop = 1
 									break
 						if(position.y !=0 and not self.isWallExist(position,Direction.MAP_BOTTOM)):
-							positionToCheck = position
+							positionToCheck = PositionClass()
+							positionToCheck.copyFrom(position)
 							positionToCheck.y = positionToCheck.y - 1
 							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								if(positionToCheck == fromPosition):
+								if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
 									endLoop = 1
 									break
-				if(endLoop!=0):break
+				if(endLoop!=0):
+					break
 			actualValue = actualValue + 1
 
 		#print pathMap
 		return pathMap
 
 	def completeMapAfterMapping(self):
-		for i in range(0,self.xSize):
-			for j in range(0,self.ySize):
-				if(not self.wasVisited(i,j)):
-					self.setNotAvailable(i,j)
+		position = PositionClass()
+		for position.x in range(0,self.xSize):
+			for position.y in range(0,self.ySize):
+				if(not self.wasVisited(position)):
+					self.setNotAvailable(position)
 
-				if(i != 0 and self.isWallExist(i-1,j,Direction.MAP_RIGHT)):
-					self.setWall(i,j,Direction.MAP_LEFT)
-				if(i != self.xSize-1 and self.isWallExist(i+1,j,Direction.MAP_LEFT)):
-					self.setWall(i,j,Direction.MAP_RIGHT)
-				if(j != 0 and self.isWallExist(i,j-1,Direction.MAP_TOP)):
-					self.setWall(i,j,Direction.MAP_BOTTOM)
-				if(j != self.ySize-1 and self.isWallExist(i,j+1,Direction.MAP_BOTTOM)):
-					self.setWall(i,j,Direction.MAP_TOP)
+				positionOneLeft = PositionClass()
+				positionOneLeft.x = position.x - 1
+				positionOneLeft.y = position.y
+				if(position.x != 0 and self.isWallExist(positionOneLeft,Direction.MAP_RIGHT)):
+					self.setWall(position,Direction.MAP_LEFT)
+				positionOneRight = PositionClass()
+				positionOneRight.x = position.x + 1
+				positionOneRight.y = position.y
+				if(position.x != self.xSize-1 and self.isWallExist(positionOneRight,Direction.MAP_LEFT)):
+					self.setWall(position,Direction.MAP_RIGHT)
+				positionOneBottom = PositionClass()
+				positionOneBottom.x = position.x
+				positionOneBottom.y = position.y - 1
+				if(position.y != 0 and self.isWallExist(positionOneBottom,Direction.MAP_TOP)):
+					self.setWall(position,Direction.MAP_BOTTOM)
+				positionOneTop = PositionClass()
+				positionOneTop.x = position.x
+				positionOneTop.y = position.y + 1
+				if(position.y != self.ySize-1 and self.isWallExist(positionOneTop,Direction.MAP_BOTTOM)):
+					self.setWall(position,Direction.MAP_TOP)
 
 	def drawMap(self):
 		sys.stdout.flush()
@@ -477,21 +501,23 @@ class MapMatrixClass():
 
 	def drawMatrixRow(self,rowNumber):
 		for k in range(0,2):
-			for columnNumber in range(0,self.xSize):
-				if(columnNumber is not 0):
-					if(self.isWallExist(columnNumber,rowNumber,Direction.MAP_LEFT)):
+			position = PositionClass()
+			position.y = rowNumber
+			for position.x in range(0,self.xSize):
+				if(position.x is not 0):
+					if(self.isWallExist(position,Direction.MAP_LEFT)):
 						sys.stdout.write("|")
-						if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("___")
-						elif(k==1 and rowNumber==0): sys.stdout.write("___")
+						if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("___")
+						elif(k==1 and position.y==0): sys.stdout.write("___")
 						else: sys.stdout.write("   ")
 					else:
-						if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("____")
-						elif(k==1 and rowNumber==0): sys.stdout.write("____")
+						if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("____")
+						elif(k==1 and position.y==0): sys.stdout.write("____")
 						else: sys.stdout.write("    ")
 				else:
 					sys.stdout.write("|")
-					if(k==1 and self.isWallExist(columnNumber,rowNumber,Direction.MAP_BOTTOM)): sys.stdout.write("___")
-					elif(k==1 and rowNumber==0): sys.stdout.write("___")
+					if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("___")
+					elif(k==1 and position.y==0): sys.stdout.write("___")
 					else: sys.stdout.write("   ")
-				if(columnNumber==self.xSize-1):sys.stdout.write("|")
+				if(position.x==self.xSize-1):sys.stdout.write("|")
 			print("")

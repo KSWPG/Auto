@@ -4,6 +4,11 @@ class PositionClass:
         self.y = 0
         self.course = 0
 
+    def copyFrom(self,position):
+        self.x = position.x
+        self.y = position.y
+        self.course = position.course
+
     def addToCourse(self,angle):
         if(angle == 90 or angle == 180 or angle == 270):
             self.course = self.course + angle

@@ -9,6 +9,8 @@ def mappingAlgorithm1(robot):
 	while True:
 		#print("Size X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
 		#print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
+		#robot.map.drawMap()
+		#print("Robot position: %i %i" % (robot.position.x,robot.position.y))
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.position)
