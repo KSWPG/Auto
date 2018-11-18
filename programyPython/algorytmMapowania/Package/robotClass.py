@@ -42,22 +42,22 @@ class robotClass:
 		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.course
 		if self.simulationMap.isWallExist(self.x,self.y,"N"):
 			self.map.setWallsInContiguousField(self.x,self.y,"N")
-		elif self.map.addNewRow(self.y,"N"):
+		elif self.map.addNewRowIfNeeded(self.y,"N"):
 			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"E"):
 			self.map.setWallsInContiguousField(self.x,self.y,"E")
-		elif self.map.addNewColumn(self.x,"E"):
+		elif self.map.addNewColumnIfNeeded(self.x,"E"):
 			pass
 
 		if self.simulationMap.isWallExist(self.x,self.y,"S"):
 			self.map.setWallsInContiguousField(self.x,self.y,"S")
-		elif self.map.addNewRow(self.y,"S"):
+		elif self.map.addNewRowIfNeeded(self.y,"S"):
 			self.y = self.y + 1
 
 		if self.simulationMap.isWallExist(self.x,self.y,"W"):
 			self.map.setWallsInContiguousField(self.x,self.y,"W")
-		elif self.map.addNewColumn(self.x,"W"):
+		elif self.map.addNewColumnIfNeeded(self.x,"W"):
 			self.x = self.x +1
 
 		self.map.setVisited(self.x,self.y)
