@@ -11,7 +11,7 @@ def mappingAlgorithm1(robot):
 		#print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
 		robot.checkSensor()
 		try:
-			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.position.x,robot.position.y)
+			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.position)
 			robot.goByPath(PathMap)
 		except Exception as e:
 			if(str(e) == "Not found anymore no visited spot"):
@@ -25,7 +25,7 @@ def mappingAlgorithm2(robot):
 	while True:
 		robot.checkSensor()
 		try:
-			PathMap = robot.map.findWayToNearestNoVisitedSpot2(robot.position.x,robot.position.y,robot.position.course)
+			PathMap = robot.map.findWayToNearestNoVisitedSpot2(robot.position)
 			robot.goByPath(PathMap)
 		except Exception as e:
 			if(str(e) == "Not found anymore no visited spot"):

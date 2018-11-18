@@ -30,34 +30,31 @@ class RobotClass:
 
 	def checkSensor(self):
 		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.position.course
-		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_TOP):
-			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_TOP)
+		if self.simulationMap.isWallExist(self.position,Direction.MAP_TOP):
+			self.map.setWallsInContiguousField(self.position,Direction.MAP_TOP)
 		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_TOP):
 			pass
 
-		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_RIGHT):
-			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_RIGHT)
+		if self.simulationMap.isWallExist(self.position,Direction.MAP_RIGHT):
+			self.map.setWallsInContiguousField(self.position,Direction.MAP_RIGHT)
 		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_RIGHT):
 			pass
 
-		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_BOTTOM):
-			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_BOTTOM)
+		if self.simulationMap.isWallExist(self.position,Direction.MAP_BOTTOM):
+			self.map.setWallsInContiguousField(self.position,Direction.MAP_BOTTOM)
 		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_BOTTOM):
 			self.position.y = self.position.y + 1
 
-		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_LEFT):
-			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_LEFT)
+		if self.simulationMap.isWallExist(self.position,Direction.MAP_LEFT):
+			self.map.setWallsInContiguousField(self.position,Direction.MAP_LEFT)
 		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_LEFT):
 			self.position.x = self.position.x +1
 
-		self.map.setVisited(self.position.x,self.position.y)
+		self.map.setVisited(self.position)
 
 	def goForward(self):
 		#motors.ForwardOneField
-		if self.position.course == 0: self.position.y = self.position.y + 1
-		elif self.position.course == 90: self.position.x = self.position.x + 1
-		elif self.position.course == 180: self.position.y = self.position.y - 1
-		elif self.position.course == 270: self.position.x = self.position.x - 1
+		self.position.goOneFieldForward()
 
 	def goRight(self):
 		#motors.turnRight

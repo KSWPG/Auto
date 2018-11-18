@@ -2,6 +2,7 @@ import numpy as np
 import sys
 
 from DirectionEnum import DirectionEnum as Direction
+from PositionClass import PositionClass
 
 class MapMatrixClass():
 	def __init__(self,xSize,ySize):
@@ -9,100 +10,127 @@ class MapMatrixClass():
 		self.ySize = ySize
 		self.mapMatrix = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 
-	def setWallsInContiguousField(self,x,y,direction):
-		self.setWall(x,y,direction)
+	def setWallsInContiguousField(self,position,direction):
+		self.setWall(position,direction)
 
-		xForContiguousField = x
-		yForContiguousField = y
+		positionForContiguousField = position
 		directionForContiguousField = ""
 
 		if(direction == Direction.MAP_TOP):
 			directionForContiguousField == Direction.MAP_BOTTOM
-			yForContiguousField = y + 1
+			positionForContiguousField.y = positionForContiguousField.y + 1
 		elif(direction == Direction.MAP_BOTTOM):
 			directionForContiguousField == Direction.MAP_TOP
-			yForContiguousField = y - 1
+			positionForContiguousField.y = positionForContiguousField.y - 1
 		elif(direction == Direction.MAP_RIGHT):
 			directionForContiguousField == Direction.MAP_LEFT
-			xForContiguousField = x + 1
+			positionForContiguousField.x = positionForContiguousField.x + 1
 		elif(direction == Direction.MAP_LEFT):
 			directionForContiguousField == Direction.MAP_RIGHT
-			xForContiguousField = x - 1
+			positionForContiguousField.x = positionForContiguousField.x - 1
 
 		try:
-			self.setWall(xForContiguousField,yForContiguousField,directionForContiguousField)
+			self.setWall(positionForContiguousField,directionForContiguousField)
 		except:
 			pass
 
-	def setWall(self,x,y,direction):
-		self.checkScopeOfIndex(x,y)
+	def setWall(self,position,direction):
+		self.checkScopeOfIndex(position)
 		if direction == Direction.MAP_TOP:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 8
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 8
 		elif direction == Direction.MAP_RIGHT:
-			 self.mapMatrix[x][y] = self.mapMatrix[x][y] | 4
+			 self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 4
 		elif direction == Direction.MAP_BOTTOM:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 2
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 2
 		elif direction == Direction.MAP_LEFT:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] | 1
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 1
 		else:
 			raise Exception("Wrong parameter for direction")
 
-	def removeWall(self,x,y,direction):
-		self.checkScopeOfIndex(x,y)
+	def removeWallsInContiguousField(self,position,direction):
+		self.removeWall(position,direction)
+
+		positionForContiguousField = position
+		directionForContiguousField = ""
+
+		if(direction == Direction.MAP_TOP):
+			directionForContiguousField == Direction.MAP_BOTTOM
+			positionForContiguousField.y = positionForContiguousField.y + 1
+		elif(direction == Direction.MAP_BOTTOM):
+			directionForContiguousField == Direction.MAP_TOP
+			positionForContiguousField.y = positionForContiguousField.y - 1
+		elif(direction == Direction.MAP_RIGHT):
+			directionForContiguousField == Direction.MAP_LEFT
+			positionForContiguousField.x = positionForContiguousField.x + 1
+		elif(direction == Direction.MAP_LEFT):
+			directionForContiguousField == Direction.MAP_RIGHT
+			positionForContiguousField.x = positionForContiguousField.x - 1
+
+		try:
+			self.removeWall(positionForContiguousField,directionForContiguousField)
+		except:
+			pass
+
+	def removeWall(self,position,direction):
+		self.checkScopeOfIndex(position)
 		if direction == Direction.MAP_TOP:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 247
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 247
 		elif direction == Direction.MAP_RIGHT:
-			 self.mapMatrix[x][y] = self.mapMatrix[x][y] & 251
+			 self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 251
 		elif direction == Direction.MAP_BOTTOM:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 253
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 253
 		elif direction == Direction.MAP_LEFT:
-			self.mapMatrix[x][y] = self.mapMatrix[x][y] & 254
+			self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 254
 		else:
 			raise Exception("Wrong parameter for direction")
 
-	def isWallExist(self,x,y,direction):
-		self.checkScopeOfIndex(x,y)
+	def isWallExist(self,position,direction):
+		self.checkScopeOfIndex(position)
 		if direction == Direction.MAP_TOP :
-			if self.mapMatrix[x][y] & 8 == 8: return True
+			if self.mapMatrix[position.x][position.y] & 8 == 8: return True
 		elif direction == Direction.MAP_RIGHT :
-			if self.mapMatrix[x][y] & 4 == 4: return True
+			if self.mapMatrix[position.x][position.y] & 4 == 4: return True
 		elif direction == Direction.MAP_BOTTOM :
-			if self.mapMatrix[x][y] & 2 == 2: return True
+			if self.mapMatrix[position.x][position.y] & 2 == 2: return True
 		elif direction == Direction.MAP_LEFT :
-			if self.mapMatrix[x][y] & 1 == 1: return True
+			if self.mapMatrix[position.x][position.y] & 1 == 1: return True
 		else:
 			raise Exception("Wrong parameter for direction")
 		return False
 
-	def setVisited(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 16
+	def setVisited(self,position):
+		self.checkScopeOfIndex(position)
+		self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 16
 
-	def setUnVisited(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 239
+	def setUnVisited(self,position):
+		self.checkScopeOfIndex(position)
+		self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 239
 
-	def wasVisited(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		if self.mapMatrix[x][y] & 16 == 16: return True
-		else: return False
+	def wasVisited(self,position):
+		self.checkScopeOfIndex(position)
+		if self.mapMatrix[position.x][position.y] & 16 == 16:
+			return True
+		else:
+			return False
 
-	def setNotAvailable(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] | 32
+	def setNotAvailable(self,position):
+		self.checkScopeOfIndex(position)
+		self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] | 32
 
-	def setAvailable(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		self.mapMatrix[x][y] = self.mapMatrix[x][y] & 223
+	def setAvailable(self,position):
+		self.checkScopeOfIndex(position)
+		self.mapMatrix[position.x][position.y] = self.mapMatrix[position.x][position.y] & 223
 
-	def isNotAvailable(self,x,y):
-		self.checkScopeOfIndex(x,y)
-		if self.mapMatrix[x][y] & 32 == 32: return True
-		else: return False
+	def isNotAvailable(self,position):
+		self.checkScopeOfIndex(position)
+		if self.mapMatrix[position.x][position.y] & 32 == 32:
+			return True
+		else:
+			return False
 
-	def checkScopeOfIndex(self,x,y):
-		if(x < 0 or x >= self.xSize or y < 0 or y >= self.ySize):
-			raise Exception("Matrix indexes outside the scope")
+	def checkScopeOfIndex(self,position):
+		if(position.x < 0 or position.x >= self.xSize or position.y < 0 or position.y >= self.ySize):
+			raise Exception("Matrix indexes outside the scope %i %i" % (position.x,position.y))
 
 	def addNewRowIfNeeded(self,y,direction):
 		if direction == Direction.MAP_TOP and y == self.ySize-1:
@@ -126,225 +154,246 @@ class MapMatrixClass():
 			return True
 		else: return False
 
-	def findWayToNearestNoVisitedSpot(self,robotXposition,robotYposition):
+	def findWayToNearestNoVisitedSpot(self,robotPosition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
-		pathMap[robotXposition][robotYposition]=1
+		pathMap[robotPosition.x][robotPosition.y] = 1
 
 		actualValue=1
-		findX=0
-		findY=0
+		foundPosition = PositionClass()
 		endLoop=0
 
 		while (endLoop==0):
 			changeAmount=0
-			for i in range(0,self.xSize):
-				for j in range(0,self.ySize):
-					if(pathMap[i][j] == actualValue):
-						if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
-							if(pathMap[i-1][j]==0):
-								pathMap[i-1][j]=actualValue+1
-								changeAmount=changeAmount+1
-								if(not self.wasVisited(i-1,j)):
-									findX=i-1
-									findY=j
+			position = PositionClass()
+			for position.x in range(0,self.xSize):
+				for position.y in range(0,self.ySize):
+					if(pathMap[position.x][position.y] == actualValue):
+						if(not self.isWallExist(position,Direction.MAP_LEFT)):
+							if(pathMap[position.x-1][position.y] == 0):
+								positionToCheck = position
+								positionToCheck.x = positionToCheck.x -1
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								changeAmount = changeAmount + 1
+								if(not self.wasVisited(positionToCheck)):
+									foundPosition = positionToCheck
+									endLoop = 1
+									break
+						if(not self.isWallExist(position,Direction.MAP_TOP)):
+							if(pathMap[position.x][position.y + 1] == 0):
+								positionToCheck = position
+								positionToCheck.y = positionToCheck.y + 1
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								changeAmount = changeAmount + 1
+								if(not self.wasVisited(positionToCheck)):
+									foundPosition = positionToCheck
+									endLoop = 1
+									break
+						if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+							if(pathMap[position.x+1][position.y] == 0):
+								positionToCheck = position
+								positionToCheck.x = positionToCheck.x + 1
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								changeAmount = changeAmount + 1
+								if(not self.wasVisited(positionToCheck)):
+									foundPosition = positionToCheck
 									endLoop=1
 									break
-						if(not self.isWallExist(i,j,Direction.MAP_TOP)):
-							if(pathMap[i][j+1]==0):
-								pathMap[i][j+1]=actualValue+1
-								changeAmount=changeAmount+1
-								if(not self.wasVisited(i,j+1)):
-									findX=i
-									findY=j+1
-									endLoop=1
-									break
-						if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-							if(pathMap[i+1][j]==0):
-								pathMap[i+1][j]=actualValue+1
-								changeAmount=changeAmount+1
-								if(not self.wasVisited(i+1,j)):
-									findX=i+1
-									findY=j
-									endLoop=1
-									break
-						if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-							if(pathMap[i][j-1]==0):
-								pathMap[i][j-1]=actualValue+1
-								changeAmount=changeAmount+1
-								if(not self.wasVisited(i,j-1)):
-									findX=i
-									findY=j-1
-									endLoop=1
+						if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
+							if(pathMap[position.x][position.y-1] == 0):
+								positionToCheck = position
+								positionToCheck.y = positionToCheck.y - 1
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								changeAmount = changeAmount + 1
+								if(not self.wasVisited(positionToCheck)):
+									foundPosition = positionToCheck
+									endLoop = 1
 									break
 				if(endLoop!=0):break
 			actualValue = actualValue + 1
 			if(changeAmount==0):
 				raise Exception("Not found anymore no visited spot")
 
-		return self.findPathTo(findX,findY,robotXposition,robotYposition)
+		return self.findPathTo(robotPosition,foundPosition)
 
-	def findWayToNearestNoVisitedSpot2(self,robotXposition,robotYposition,course):
+	def findWayToNearestNoVisitedSpot2(self,robotPosition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
-		pathMap[robotXposition][robotYposition]=1
+		pathMap[robotPosition.x][robotPosition.y] = 1
 
-		actualValue=1
-		findX=0
-		findY=0
-		endLoop=0
+		actualValue = 1
+		foundPosition = PositionClass()
+		endLoop = 0
 
 		while (endLoop==0):
-			changeAmount=0
-			for i in range(0,self.xSize):
-				for j in range(0,self.ySize):
-					if(pathMap[i][j] == actualValue):
-						if course == 0:
-							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
-								if(pathMap[i-1][j]==0):
-									pathMap[i-1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i-1,j)):
-										findX=i-1
-										findY=j
+			changeAmount = 0
+			position = PositionClass()
+			for position.x in range(0,self.xSize):
+				for position.y in range(0,self.ySize):
+					if(pathMap[position.x][position.y] == actualValue):
+						if position.course == 0:
+							if(not self.isWallExist(position,Direction.MAP_LEFT)):
+								if(pathMap[position.x-1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x -1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+							if(not self.isWallExist(position,Direction.MAP_TOP)):
+								if(pathMap[position.x][position.y + 1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+								if(pathMap[position.x+1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
-								if(pathMap[i][j+1]==0):
-									pathMap[i][j+1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j+1)):
-										findX=i
-										findY=j+1
+							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
+								if(pathMap[position.x][position.y-1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y - 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+						elif position.course == 90:
+							if(not self.isWallExist(position,Direction.MAP_TOP)):
+								if(pathMap[position.x][position.y + 1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+								if(pathMap[position.x+1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-								if(pathMap[i+1][j]==0):
-									pathMap[i+1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i+1,j)):
-										findX=i+1
-										findY=j
+							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
+								if(pathMap[position.x][position.y-1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y - 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+							if(not self.isWallExist(position,Direction.MAP_LEFT)):
+								if(pathMap[position.x-1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x -1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
+										break
+						elif position.course == 180:
+							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+								if(pathMap[position.x+1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
 										endLoop=1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-								if(pathMap[i][j-1]==0):
-									pathMap[i][j-1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j-1)):
-										findX=i
-										findY=j-1
-										endLoop=1
+							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
+								if(pathMap[position.x][position.y-1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y - 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-						elif course == 90:
-							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
-								if(pathMap[i][j+1]==0):
-									pathMap[i][j+1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j+1)):
-										findX=i
-										findY=j+1
-										endLoop=1
+							if(not self.isWallExist(position,Direction.MAP_LEFT)):
+								if(pathMap[position.x-1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x -1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-								if(pathMap[i+1][j]==0):
-									pathMap[i+1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i+1,j)):
-										findX=i+1
-										findY=j
-										endLoop=1
+							if(not self.isWallExist(position,Direction.MAP_TOP)):
+								if(pathMap[position.x][position.y + 1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-								if(pathMap[i][j-1]==0):
-									pathMap[i][j-1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j-1)):
-										findX=i
-										findY=j-1
-										endLoop=1
+						elif position.course ==270:
+							if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
+								if(pathMap[position.x][position.y-1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y - 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
-								if(pathMap[i-1][j]==0):
-									pathMap[i-1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i-1,j)):
-										findX=i-1
-										findY=j
-										endLoop=1
+							if(not self.isWallExist(position,Direction.MAP_LEFT)):
+								if(pathMap[position.x-1][position.y] == 0):
+									positionToCheck = position
+									positionToCheck.x = positionToCheck.x -1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-						elif course == 180:
-							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-								if(pathMap[i+1][j]==0):
-									pathMap[i+1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i+1,j)):
-										findX=i+1
-										findY=j
-										endLoop=1
+							if(not self.isWallExist(position,Direction.MAP_TOP)):
+								if(pathMap[position.x][position.y + 1] == 0):
+									positionToCheck = position
+									positionToCheck.y = positionToCheck.y + 1
+									pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+									changeAmount = changeAmount + 1
+									if(not self.wasVisited(positionToCheck)):
+										foundPosition = positionToCheck
+										endLoop = 1
 										break
-							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-								if(pathMap[i][j-1]==0):
-									pathMap[i][j-1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j-1)):
-										findX=i
-										findY=j-1
-										endLoop=1
-										break
-							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
-								if(pathMap[i-1][j]==0):
-									pathMap[i-1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i-1,j)):
-										findX=i-1
-										findY=j
-										endLoop=1
-										break
-							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
-								if(pathMap[i][j+1]==0):
-									pathMap[i][j+1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j+1)):
-										findX=i
-										findY=j+1
-										endLoop=1
-										break
-						elif course ==270:
-							if(not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-								if(pathMap[i][j-1]==0):
-									pathMap[i][j-1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j-1)):
-										findX=i
-										findY=j-1
-										endLoop=1
-										break
-							if(not self.isWallExist(i,j,Direction.MAP_LEFT)):
-								if(pathMap[i-1][j]==0):
-									pathMap[i-1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i-1,j)):
-										findX=i-1
-										findY=j
-										endLoop=1
-										break
-							if(not self.isWallExist(i,j,Direction.MAP_TOP)):
-								if(pathMap[i][j+1]==0):
-									pathMap[i][j+1]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i,j+1)):
-										findX=i
-										findY=j+1
-										endLoop=1
-										break
-							if(not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-								if(pathMap[i+1][j]==0):
-									pathMap[i+1][j]=actualValue+1
-									changeAmount=changeAmount+1
-									if(not self.wasVisited(i+1,j)):
-										findX=i+1
-										findY=j
-										endLoop=1
-										break
+							if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+								if(not self.isWallExist(position,Direction.MAP_RIGHT)):
+									if(pathMap[position.x+1][position.y] == 0):
+										positionToCheck = position
+										positionToCheck.x = positionToCheck.x + 1
+										pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+										changeAmount = changeAmount + 1
+										if(not self.wasVisited(positionToCheck)):
+											foundPosition = positionToCheck
+											endLoop=1
+											break
 
 
 				if(endLoop!=0):break
@@ -352,43 +401,52 @@ class MapMatrixClass():
 			if(changeAmount==0):
 				raise Exception("Not found anymore no visited spot")
 
-		return self.findPathTo(findX,findY,robotXposition,robotYposition)
+		return self.findPathTo(robotPosition,foundPosition)
 
-	def findPathTo(self,pointX,pointY,fromX,fromY):
+	def findPathTo(self,fromPosition,toPosition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
-		pathMap[pointX][pointY] = 1
+		pathMap[toPosition.x][toPosition.y] = 1
 		actualValue = 1
 		endLoop=0
 		while (endLoop==0):
-			for i in range(0,self.xSize):
-				for j in range(0,self.ySize):
-					if(pathMap[i][j] == actualValue):
-						if(i != 0 and not self.isWallExist(i,j,Direction.MAP_LEFT)):
-							if(pathMap[i-1][j]==0):
-								pathMap[i-1][j]=actualValue+1
-								if(i-1 == fromX and j == fromY):
+			position = PositionClass()
+			for position.x in range(0,self.xSize):
+				for position.y in range(0,self.ySize):
+					if(pathMap[position.x][position.y] == actualValue):
+						if(position.x != 0 and not self.isWallExist(position,Direction.MAP_LEFT)):
+							positionToCheck = position
+							positionToCheck.x = positionToCheck.x - 1
+							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								if(positionToCheck == fromPosition):
 									endLoop = 1
 									break
-						if(j != self.ySize-1 and not self.isWallExist(i,j,Direction.MAP_TOP)):
-							if(pathMap[i][j+1]==0):
-								pathMap[i][j+1]=actualValue+1
-								if(i == fromX and j+1 == fromY):
+						if(position.y != self.ySize-1 and not self.isWallExist(position,Direction.MAP_TOP)):
+							positionToCheck = position
+							positionToCheck.y = positionToCheck.y + 1
+							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								if(positionToCheck == fromPosition):
 									endLoop = 1
 									break
-						if(i != self.xSize-1 and not self.isWallExist(i,j,Direction.MAP_RIGHT)):
-							if(pathMap[i+1][j]==0):
-								pathMap[i+1][j]=actualValue+1
-								if(i+1 == fromX and j == fromY):
+						if(position.x != self.xSize-1 and not self.isWallExist(position,Direction.MAP_RIGHT)):
+							positionToCheck = position
+							positionToCheck.x = positionToCheck.x + 1
+							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								if(positionToCheck == fromPosition):
 									endLoop = 1
 									break
-						if(j !=0 and not self.isWallExist(i,j,Direction.MAP_BOTTOM)):
-							if(pathMap[i][j-1]==0):
-								pathMap[i][j-1]=actualValue+1
-								if(i == fromX and j-1 == fromY):
+						if(position.y !=0 and not self.isWallExist(position,Direction.MAP_BOTTOM)):
+							positionToCheck = position
+							positionToCheck.y = positionToCheck.y - 1
+							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
+								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
+								if(positionToCheck == fromPosition):
 									endLoop = 1
 									break
 				if(endLoop!=0):break
-			actualValue = actualValue+1
+			actualValue = actualValue + 1
 
 		#print pathMap
 		return pathMap

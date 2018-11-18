@@ -17,3 +17,13 @@ class PositionClass:
                 self.course = 180
         else:
             raise Exception("The value of the angle should be 90,180 or 270.")
+
+    def goOneFieldForward(self):
+        if(self.course == 0):
+            self.y = self.y + 1
+        elif(self.course == 90):
+            self.x = self.x + 1
+        elif(self.course == 180):
+            self.y = self.y - 1
+        elif(self.course == 270):
+            self.x = self.x - 1
