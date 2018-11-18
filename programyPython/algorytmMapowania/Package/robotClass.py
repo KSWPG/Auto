@@ -4,6 +4,7 @@ import numpy as np
 #from Package import MotorControl
 from MapMatrixClass import MapMatrixClass
 from SimulationMapMatrixClass import SimulationMapMatrixClass
+from PositionClass import PositionClass
 from DirectionEnum import DirectionEnum as Direction
 
 
@@ -21,108 +22,96 @@ class RobotClass:
 		self.simulationMap = SimulationMapMatrixClass(10,10)
 		self.simulationMap.prepareTable()
 
-		self.course = 0
-		self.x = 0
-		self.y = 0
+		self.position = PositionClass()
 
 		self.moves=0
 
 		self.map = MapMatrixClass(1,1)
 
-	def addToCourse(self, angle):
-		if ((angle == 90) or (angle == 180) or (angle == 270)):
-			course = self.course + angle
-			if course < 360: self.course = course
-			elif course == 360: self.course = 0
-			elif course == 450: self.course = 90
-			elif course == 540: self.course = 180
-		else:
-			 raise Exception('The value of the angle should be 90,180 or 270.')
-
 	def checkSensor(self):
-		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.course
-		if self.simulationMap.isWallExist(self.x,self.y,Direction.MAP_TOP):
-			self.map.setWallsInContiguousField(self.x,self.y,Direction.MAP_TOP)
-		elif self.map.addNewRowIfNeeded(self.y,Direction.MAP_TOP):
+		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.position.course
+		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_TOP):
+			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_TOP)
+		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_TOP):
 			pass
 
-		if self.simulationMap.isWallExist(self.x,self.y,Direction.MAP_RIGHT):
-			self.map.setWallsInContiguousField(self.x,self.y,Direction.MAP_RIGHT)
-		elif self.map.addNewColumnIfNeeded(self.x,Direction.MAP_RIGHT):
+		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_RIGHT):
+			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_RIGHT)
+		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_RIGHT):
 			pass
 
-		if self.simulationMap.isWallExist(self.x,self.y,Direction.MAP_BOTTOM):
-			self.map.setWallsInContiguousField(self.x,self.y,Direction.MAP_BOTTOM)
-		elif self.map.addNewRowIfNeeded(self.y,Direction.MAP_BOTTOM):
-			self.y = self.y + 1
+		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_BOTTOM):
+			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_BOTTOM)
+		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_BOTTOM):
+			self.position.y = self.position.y + 1
 
-		if self.simulationMap.isWallExist(self.x,self.y,Direction.MAP_LEFT):
-			self.map.setWallsInContiguousField(self.x,self.y,Direction.MAP_LEFT)
-		elif self.map.addNewColumnIfNeeded(self.x,Direction.MAP_LEFT):
-			self.x = self.x +1
+		if self.simulationMap.isWallExist(self.position.x,self.position.y,Direction.MAP_LEFT):
+			self.map.setWallsInContiguousField(self.position.x,self.position.y,Direction.MAP_LEFT)
+		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_LEFT):
+			self.position.x = self.position.x +1
 
-		self.map.setVisited(self.x,self.y)
+		self.map.setVisited(self.position.x,self.position.y)
 
 	def goForward(self):
 		#motors.ForwardOneField
-		if self.course == 0: self.y = self.y + 1
-		elif self.course == 90: self.x = self.x + 1
-		elif self.course == 180: self.y = self.y - 1
-		elif self.course == 270: self.x = self.x - 1
+		if self.position.course == 0: self.position.y = self.position.y + 1
+		elif self.position.course == 90: self.position.x = self.position.x + 1
+		elif self.position.course == 180: self.position.y = self.position.y - 1
+		elif self.position.course == 270: self.position.x = self.position.x - 1
 
 	def goRight(self):
 		#motors.turnRight
-		self.addToCourse(90)
+		self.position.addToCourse(90)
 		self.goForward()
 
 	def goBack(self):
 		#motors.turnBack
-		self.addToCourse(180)
+		self.position.addToCourse(180)
 		self.goForward()
 
 	def goLeft(self):
 		#motors.turnLeft
-		self.addToCourse(270)
+		self.position.addToCourse(270)
 		self.goForward()
 
 	def goByPath(self,pathMap):
-		while (pathMap[self.x][self.y] != 1):
-			actualValue = pathMap[self.x][self.y]
-			if(self.x != self.map.xSize-1 and pathMap[self.x+1][self.y] == actualValue-1):
-				if self.course == 0:
+		while (pathMap[self.position.x][self.position.y] != 1):
+			actualValue = pathMap[self.position.x][self.position.y]
+			if(self.position.x != self.map.xSize-1 and pathMap[self.position.x+1][self.position.y] == actualValue-1):
+				if self.position.course == 0:
 					self.goRight()
-				elif self.course == 90:
+				elif self.position.course == 90:
 					self.goForward()
-				elif self.course == 180:
+				elif self.position.course == 180:
 					self.goLeft()
-				elif self.course == 270:
+				elif self.position.course == 270:
 					self.goBack()
-			elif(self.x != 0 and pathMap[self.x-1][self.y] == actualValue-1):
-				if self.course == 0:
+			elif(self.position.x != 0 and pathMap[self.position.x-1][self.position.y] == actualValue-1):
+				if self.position.course == 0:
 					self.goLeft()
-				elif self.course == 90:
+				elif self.position.course == 90:
 					self.goBack()
-				elif self.course == 180:
+				elif self.position.course == 180:
 					self.goRight()
-				elif self.course == 270:
+				elif self.position.course == 270:
 					self.goForward()
-			elif(self.y != self.map.ySize-1 and pathMap[self.x][self.y+1] == actualValue-1):
-				if self.course == 0:
+			elif(self.position.y != self.map.ySize-1 and pathMap[self.position.x][self.position.y+1] == actualValue-1):
+				if self.position.course == 0:
 					self.goForward()
-				elif self.course == 90:
+				elif self.position.course == 90:
 					self.goLeft()
-				elif self.course == 180:
+				elif self.position.course == 180:
 					self.goBack()
-				elif self.course == 270:
+				elif self.position.course == 270:
 					self.goRight()
-			elif(self.y != 0 and pathMap[self.x][self.y-1] == actualValue-1):
-				if self.course == 0:
+			elif(self.position.y != 0 and pathMap[self.position.x][self.position.y-1] == actualValue-1):
+				if self.position.course == 0:
 					self.goBack()
-				elif self.course == 90:
+				elif self.position.course == 90:
 					self.goRight()
-				elif self.course == 180:
+				elif self.position.course == 180:
 					self.goForward()
-				elif self.course == 270:
+				elif self.position.course == 270:
 					self.goLeft()
 
 			self.moves=self.moves+1
