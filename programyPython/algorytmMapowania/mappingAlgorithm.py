@@ -1,5 +1,5 @@
-from Package import robotClass
-from Package import simulationMapMatrixClass
+from Package import RobotClass
+from Package import SimulationMapMatrixClass
 
 import time
 
@@ -49,9 +49,9 @@ def testAlgorithmsHowManyMovesIsNeeded():
 
 	equal = 0
 	for z in range(0,100):
-		simulationMap = simulationMapMatrixClass(10,10)
+		simulationMap = SimulationMapMatrixClass(10,10)
 		simulationMap.generateRandomMap()
-		robot = robotClass()
+		robot = RobotClass()
 		robot.simulationMap=simulationMap
 
 		start_time = time.time()
@@ -59,7 +59,7 @@ def testAlgorithmsHowManyMovesIsNeeded():
 		mappingAlgorithm1Time = time.time()-start_time
 		algorithm1Moves = robot.moves
 
-		robot2 = robotClass()
+		robot2 = RobotClass()
 		robot2.simulationMap = simulationMap
 
 		start_time = time.time()
@@ -105,7 +105,7 @@ def showHowManyMovesIsNeededToMap():
 	matrixNumber = 0
 	for i in range(0,10):
 		for j in range(0,10):
-			robot = robotClass()
+			robot = RobotClass()
 			robot.x = i
 			robot.y = j
 			mappingAlgorithm1(robot)
@@ -117,15 +117,15 @@ def showHowManyMovesIsNeededToMap():
 		print(matrix[i])
 
 def quickTest():
-	robot = robotClass()
+	robot = RobotClass()
 	mappingAlgorithm1(robot)
 	robot.map.drawMap()
 
 def mappingTest():
-	simulationMap = simulationMapMatrixClass(25,10)
+	simulationMap = SimulationMapMatrixClass(25,10)
 	simulationMap.generateRandomMap()
 	simulationMap.drawMap()
-	robot = robotClass()
+	robot = RobotClass()
 	robot.simulationMap = simulationMap
 	mappingAlgorithm1(robot)
 	robot.map.drawMap()

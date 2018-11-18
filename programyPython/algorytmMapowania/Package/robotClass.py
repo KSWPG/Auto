@@ -2,12 +2,12 @@ import numpy as np
 #import RPi.GPIO as GPIO
 
 #from Package import MotorControl
-from mapMatrixClass import mapMatrixClass
-from simulationMapMatrixClass import simulationMapMatrixClass
+from MapMatrixClass import MapMatrixClass
+from SimulationMapMatrixClass import SimulationMapMatrixClass
 from DirectionEnum import DirectionEnum as Direction
 
 
-class robotClass:
+class RobotClass:
 	def __init__(self):
 		#GPIO.setmode(GPIO.BCM)
 
@@ -18,7 +18,7 @@ class robotClass:
 		#/########################
 
 		#wykorzystwane tylko do testowania algorytmu potem do usuniecia
-		self.simulationMap = simulationMapMatrixClass(10,10)
+		self.simulationMap = SimulationMapMatrixClass(10,10)
 		self.simulationMap.prepareTable()
 
 		self.course = 0
@@ -27,7 +27,7 @@ class robotClass:
 
 		self.moves=0
 
-		self.map = mapMatrixClass(1,1)
+		self.map = MapMatrixClass(1,1)
 
 	def addToCourse(self, angle):
 		if ((angle == 90) or (angle == 180) or (angle == 270)):

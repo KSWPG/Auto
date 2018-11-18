@@ -1,4 +1,4 @@
-from mapMatrixClass import mapMatrixClass
-from simulationMapMatrixClass import simulationMapMatrixClass
-from robotClass import robotClass
+from MapMatrixClass import MapMatrixClass
+from SimulationMapMatrixClass import SimulationMapMatrixClass
+from RobotClass import RobotClass
 from DirectionEnum import DirectionEnum

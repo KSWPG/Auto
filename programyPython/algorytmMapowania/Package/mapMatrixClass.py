@@ -3,7 +3,7 @@ import sys
 
 from DirectionEnum import DirectionEnum as Direction
 
-class mapMatrixClass():
+class MapMatrixClass():
 	def __init__(self,xSize,ySize):
 		self.xSize = xSize
 		self.ySize = ySize

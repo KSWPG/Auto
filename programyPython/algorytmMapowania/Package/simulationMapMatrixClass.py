@@ -1,9 +1,9 @@
 import random
 
-from mapMatrixClass import mapMatrixClass
+from MapMatrixClass import MapMatrixClass
 from DirectionEnum import DirectionEnum as Direction
 
-class simulationMapMatrixClass(mapMatrixClass):
+class SimulationMapMatrixClass(MapMatrixClass):
 	def generateRandomMap(self):
 		self.setAllWallExist()
 		self.randomlyRemoveTheWalls()
