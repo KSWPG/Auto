@@ -18,34 +18,17 @@ class SimulationMapMatrixClass(MapMatrixClass):
 	def randomlyRemoveTheWalls(self):
 		for i in range(0,self.xSize):
 			for j in range(0,self.ySize):
+				position22 = PositionClass()
+				position22.x = i
+				position22.y = j
 				if(random.randint(0,1) == 1):
-					self.removeWall(i,j,Direction.MAP_TOP)
-					if(j != self.ySize-1):
-						position = PositionClass()
-						position.x = i
-						position.y = j
-						self.removeWall(position,Direction.MAP_BOTTOM)
+					self.removeWallsInContiguousField(position22,Direction.MAP_TOP)
 				if(random.randint(0,1) == 1):
-					 self.removeWall(i,j,Direction.MAP_RIGHT)
-					 if(i != self.xSize-1):
-						 position = PositionClass()
-						 position.x = i
- 						 position.y = j
-						 self.removeWall(position,Direction.MAP_LEFT)
+					 self.removeWallsInContiguousField(position22,Direction.MAP_RIGHT)
 				if(random.randint(0,1) == 1):
-					 self.removeWall(position,Direction.MAP_BOTTOM)
-					 if(j != 0):
-						 position = PositionClass()
-						 position.x = i
- 						 position.y = j
-						 self.removeWall(position,Direction.MAP_TOP)
+					 self.removeWallsInContiguousField(position22,Direction.MAP_BOTTOM)
 				if(random.randint(0,1) == 1):
-					self.removeWall(position,Direction.MAP_LEFT)
-					if(i !=0):
-						position = PositionClass()
-						position.x = i
-						position.y = j
-						self.removeWall(position,Direction.MAP_RIGHT)
+					self.removeWallsInContiguousField(position22,Direction.MAP_LEFT)
 
 	def generateMapEdge(self):
 		position = PositionClass()
