@@ -102,7 +102,7 @@ class MapMatrixClass():
 				return True
 		else:
 			raise Exception("Wrong parameter for direction")
-			
+
 		return False
 
 	def setVisited(self,position):
@@ -140,26 +140,28 @@ class MapMatrixClass():
 			raise Exception("Matrix indexes outside the scope %i %i" % (position.x,position.y))
 
 	def addNewRowIfNeeded(self,y,direction):
-		if direction == Direction.MAP_TOP and y == self.ySize-1:
+		if(direction == Direction.MAP_TOP and y == self.ySize-1):
 			self.mapMatrix = np.insert(self.mapMatrix, [self.ySize],0,axis=1)
 			self.ySize = self.ySize +1
 			return True
-		elif direction == Direction.MAP_BOTTOM and y == 0:
+		elif(direction == Direction.MAP_BOTTOM and y == 0):
 			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=1)
 			self.ySize = self.ySize +1
 			return True
-		else: return False
+		else:
+			return False
 
 	def addNewColumnIfNeeded(self,x,direction):
-		if direction == Direction.MAP_RIGHT and x == self.xSize-1:
+		if(direction == Direction.MAP_RIGHT and x == self.xSize-1):
 			self.mapMatrix = np.insert(self.mapMatrix, [self.xSize],0,axis=0)
 			self.xSize = self.xSize + 1
 			return True
-		elif direction == Direction.MAP_LEFT and x == 0:
+		elif(direction == Direction.MAP_LEFT and x == 0):
 			self.mapMatrix = np.insert(self.mapMatrix, [0],0,axis=0)
 			self.xSize = self.xSize + 1
 			return True
-		else: return False
+		else:
+			return False
 
 	def findWayToNearestNoVisitedSpot(self,robotPosition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
