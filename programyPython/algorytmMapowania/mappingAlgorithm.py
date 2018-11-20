@@ -18,6 +18,8 @@ def mappingAlgorithm1(robot):
 		except Exception as e:
 			if(str(e) == "Not found anymore no visited spot"):
 				break
+			else:
+				raise Exception(e)
 
 	robot.map.completeMapAfterMapping()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
@@ -32,6 +34,8 @@ def mappingAlgorithm2(robot):
 		except Exception as e:
 			if(str(e) == "Not found anymore no visited spot"):
 				break
+			else:
+				raise Exception(e)
 
 	robot.map.completeMapAfterMapping()
 	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
