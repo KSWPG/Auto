@@ -7,10 +7,6 @@ import numpy as np
 
 def mappingAlgorithm1(robot):
 	while True:
-		#print("Size X: %i Y: %i" % (robot.map.xSize, robot.map.ySize))
-		#print("Size in bytes: %i" % robot.map.mapMatrix.nbytes)
-		#robot.map.drawMap()
-		#print("Robot position: %i %i" % (robot.position.x,robot.position.y))
 		robot.checkSensor()
 		try:
 			PathMap = robot.map.findWayToNearestNoVisitedSpot(robot.position)
@@ -22,8 +18,6 @@ def mappingAlgorithm1(robot):
 				raise Exception(e)
 
 	robot.map.completeMapAfterMapping()
-	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
-	#robot.map.drawMatrix()
 
 def mappingAlgorithm2(robot):
 	while True:
@@ -38,23 +32,21 @@ def mappingAlgorithm2(robot):
 				raise Exception(e)
 
 	robot.map.completeMapAfterMapping()
-	#print("Zakonczono proces mapowania w %i ruchach" % robot.moves)
-	#robot.map.drawMatrix()
 
 
 def testAlgorithmsHowManyMovesIsNeeded():
 	better1 = 0
 	better2 = 0
+	equal = 0
 
 	theBestMappingAlgorithm1Time= 0
 	theBestMappingAlgorithm2Time = 0
 
-	MappingAlgorithm1WasFaster = 0
-	MappingAlgorithm2WasFaster = 0
-	TimeWasEqual = 0
+	mappingAlgorithm1WasFaster = 0
+	mappingAlgorithm2WasFaster = 0
+	timeWasEqual = 0
 
-	equal = 0
-	for z in range(0,100):
+	for i in range(0,100):
 		simulationMap = SimulationMapMatrixClass(10,10)
 		simulationMap.generateRandomMap()
 		robot = RobotClass()
@@ -76,11 +68,11 @@ def testAlgorithmsHowManyMovesIsNeeded():
 		timeDifferecne = mappingAlgorithm2Time - mappingAlgorithm1Time
 
 		if(timeDifferecne>0):
-			MappingAlgorithm1WasFaster = MappingAlgorithm1WasFaster +1
+			mappingAlgorithm1WasFaster = mappingAlgorithm1WasFaster + 1
 		elif(timeDifferecne<0):
-			MappingAlgorithm2WasFaster = MappingAlgorithm2WasFaster +1
+			mappingAlgorithm2WasFaster = mappingAlgorithm2WasFaster + 1
 		else:
-			TimeWasEqual = TimeWasEqual +1
+			timeWasEqual = timeWasEqual + 1
 
 		if (timeDifferecne > theBestMappingAlgorithm1Time):
 			theBestMappingAlgorithm1Time = timeDifferecne
@@ -93,7 +85,7 @@ def testAlgorithmsHowManyMovesIsNeeded():
 			better2 = better2 + 1
 		else:
 			equal = equal + 1
-		print(z)
+		print(i)
 
 	print("mappingAlgorithm1 wykonal mniej ruchow %i razy" % better1)
 	print("mappingAlgorithm2 wykonal mniej ruchow %i razy" % better2)
@@ -102,35 +94,15 @@ def testAlgorithmsHowManyMovesIsNeeded():
 	print("W najlepszym wypadku mappingAlgorithm1 byl szybszy o %f" % theBestMappingAlgorithm1Time)
 	print("W najlepszym wypadku mappingAlgorithm2 byl szybszy o %f" % (theBestMappingAlgorithm2Time*(-1)))
 
-	print("mappingAlgorithm1 byl szybszy %i razy" % MappingAlgorithm1WasFaster)
-	print("mappingAlgorithm2 byl szybszy %i razy" % MappingAlgorithm2WasFaster)
-	print("Algorytmy byly tak samo szybkie %i razy" % TimeWasEqual)
-
-def showHowManyMovesIsNeededToMap():
-	matrix = np.zeros((100),dtype=np.byte)
-	matrixNumber = 0
-	for i in range(0,10):
-		for j in range(0,10):
-			robot = RobotClass()
-			robot.position.x = i
-			robot.position.y = j
-			mappingAlgorithm1(robot)
-			matrix[matrixNumber] = robot.moves
-
-			matrix.sort()
-
-	for i in range(0,100):
-		print(matrix[i])
-
-def quickTest():
-	robot = RobotClass()
-	mappingAlgorithm1(robot)
-	robot.map.drawMap()
+	print("mappingAlgorithm1 byl szybszy %i razy" % mappingAlgorithm1WasFaster)
+	print("mappingAlgorithm2 byl szybszy %i razy" % mappingAlgorithm2WasFaster)
+	print("Algorytmy byly tak samo szybkie %i razy" % timeWasEqual)
 
 def mappingTest():
 	simulationMap = SimulationMapMatrixClass(25,10)
 	simulationMap.generateRandomMap()
 	simulationMap.drawMap()
+	
 	robot = RobotClass()
 	robot.simulationMap = simulationMap
 	mappingAlgorithm2(robot)
