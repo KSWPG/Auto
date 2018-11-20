@@ -168,10 +168,12 @@ class MapMatrixClass():
 		pathMap[robotPosition.x][robotPosition.y] = 1
 
 		actualValue=1
+		positionToCheck = PositionClass()
 		foundPosition = PositionClass()
 		endLoop=0
 
 		while (endLoop==0):
+			print("Cos")
 			changeAmount=0
 			position = PositionClass()
 			for position.x in range(0,self.xSize):
@@ -179,7 +181,6 @@ class MapMatrixClass():
 					if(pathMap[position.x][position.y] == actualValue):
 						if(not self.isWallExist(position,Direction.MAP_LEFT)):
 							if(pathMap[position.x-1][position.y] == 0):
-								positionToCheck = PositionClass()
 								positionToCheck.copyFrom(position)
 								positionToCheck.x = positionToCheck.x -1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
@@ -190,7 +191,6 @@ class MapMatrixClass():
 									break
 						if(not self.isWallExist(position,Direction.MAP_TOP)):
 							if(pathMap[position.x][position.y + 1] == 0):
-								positionToCheck = PositionClass()
 								positionToCheck.copyFrom(position)
 								positionToCheck.y = positionToCheck.y + 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
@@ -201,7 +201,6 @@ class MapMatrixClass():
 									break
 						if(not self.isWallExist(position,Direction.MAP_RIGHT)):
 							if(pathMap[position.x+1][position.y] == 0):
-								positionToCheck = PositionClass()
 								positionToCheck.copyFrom(position)
 								positionToCheck.x = positionToCheck.x + 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
@@ -212,7 +211,6 @@ class MapMatrixClass():
 									break
 						if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
 							if(pathMap[position.x][position.y-1] == 0):
-								positionToCheck = PositionClass()
 								positionToCheck.copyFrom(position)
 								positionToCheck.y = positionToCheck.y - 1
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
@@ -476,25 +474,26 @@ class MapMatrixClass():
 				if(not self.wasVisited(position)):
 					self.setNotAvailable(position)
 
-				positionOneLeft = PositionClass()
-				positionOneLeft.x = position.x - 1
-				positionOneLeft.y = position.y
-				if(position.x != 0 and self.isWallExist(positionOneLeft,Direction.MAP_RIGHT)):
+				positionToCheck = PositionClass()
+
+				positionToCheck.copyFrom(position)
+				positionToCheck.x = position.x - 1
+				if(position.x != 0 and self.isWallExist(positionToCheck,Direction.MAP_RIGHT)):
 					self.setWall(position,Direction.MAP_LEFT)
-				positionOneRight = PositionClass()
-				positionOneRight.x = position.x + 1
-				positionOneRight.y = position.y
-				if(position.x != self.xSize-1 and self.isWallExist(positionOneRight,Direction.MAP_LEFT)):
+
+				positionToCheck.copyFrom(position)
+				positionToCheck.x = position.x + 1
+				if(position.x != self.xSize-1 and self.isWallExist(positionToCheck,Direction.MAP_LEFT)):
 					self.setWall(position,Direction.MAP_RIGHT)
-				positionOneBottom = PositionClass()
-				positionOneBottom.x = position.x
-				positionOneBottom.y = position.y - 1
-				if(position.y != 0 and self.isWallExist(positionOneBottom,Direction.MAP_TOP)):
+
+				positionToCheck.copyFrom(position)
+				positionToCheck.y = position.y - 1
+				if(position.y != 0 and self.isWallExist(positionToCheck,Direction.MAP_TOP)):
 					self.setWall(position,Direction.MAP_BOTTOM)
-				positionOneTop = PositionClass()
-				positionOneTop.x = position.x
-				positionOneTop.y = position.y + 1
-				if(position.y != self.ySize-1 and self.isWallExist(positionOneTop,Direction.MAP_BOTTOM)):
+
+				positionToCheck.copyFrom(position)
+				positionToCheck.y = position.y + 1
+				if(position.y != self.ySize-1 and self.isWallExist(positionToCheck,Direction.MAP_BOTTOM)):
 					self.setWall(position,Direction.MAP_TOP)
 
 	def drawMap(self):
