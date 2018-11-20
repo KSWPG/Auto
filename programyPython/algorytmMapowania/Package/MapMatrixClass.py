@@ -18,22 +18,22 @@ class MapMatrixClass():
 		directionForContiguousField = Direction.MAP_TOP
 
 		if(direction == Direction.MAP_TOP):
-			directionForContiguousField == Direction.MAP_BOTTOM
+			directionForContiguousField = Direction.MAP_BOTTOM
 			positionForContiguousField.y = positionForContiguousField.y + 1
 		elif(direction == Direction.MAP_BOTTOM):
-			directionForContiguousField == Direction.MAP_TOP
+			directionForContiguousField = Direction.MAP_TOP
 			positionForContiguousField.y = positionForContiguousField.y - 1
 		elif(direction == Direction.MAP_RIGHT):
-			directionForContiguousField == Direction.MAP_LEFT
+			directionForContiguousField = Direction.MAP_LEFT
 			positionForContiguousField.x = positionForContiguousField.x + 1
 		elif(direction == Direction.MAP_LEFT):
-			directionForContiguousField == Direction.MAP_RIGHT
+			directionForContiguousField = Direction.MAP_RIGHT
 			positionForContiguousField.x = positionForContiguousField.x - 1
 
 		try:
 			self.setWall(positionForContiguousField,directionForContiguousField)
 		except Exception as e:
-			print("Wall: %s" % e)
+			#print("Wall: %s" % e)
 			pass
 
 	def setWall(self,position,direction):
@@ -72,7 +72,7 @@ class MapMatrixClass():
 		try:
 			self.removeWall(positionForContiguousField,directionForContiguousField)
 		except Exception as e:
-			print("Remove wall: %s" % e)
+			#print("Remove wall: %s" % e)
 			pass
 
 	def removeWall(self,position,direction):
@@ -175,7 +175,7 @@ class MapMatrixClass():
 		endLoop=0
 
 		while (endLoop==0):
-			print("Cos")
+			#print("Cos")
 			changeAmount=0
 			position = PositionClass()
 			for position.x in range(0,self.xSize):

@@ -16,16 +16,13 @@ class RobotClass:
 		#self.motors = MotorControl(23,12,22,13)
 
 		#inicjalizacja sensorow
-		#/########################
+		##
 
 		#wykorzystwane tylko do testowania algorytmu potem do usuniecia
 		self.simulationMap = SimulationMapMatrixClass(10,10)
-		#self.simulationMap.prepareTable()
-
+		
 		self.position = PositionClass()
-
 		self.moves=0
-
 		self.map = MapMatrixClass(1,1)
 
 	def checkSensor(self):
@@ -57,17 +54,17 @@ class RobotClass:
 		self.position.goOneFieldForward()
 
 	def goRight(self):
-		#motors.turnRight
+		#motors.turnRight()
 		self.position.addToCourse(90)
 		self.goForward()
 
 	def goBack(self):
-		#motors.turnBack
+		#motors.turnBack()
 		self.position.addToCourse(180)
 		self.goForward()
 
 	def goLeft(self):
-		#motors.turnLeft
+		#motors.turnLeft()
 		self.position.addToCourse(270)
 		self.goForward()
 
