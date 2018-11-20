@@ -32,7 +32,8 @@ class MapMatrixClass():
 
 		try:
 			self.setWall(positionForContiguousField,directionForContiguousField)
-		except:
+		except Exception as e:
+			print("Wall: %s" % e)
 			pass
 
 	def setWall(self,position,direction):
@@ -70,7 +71,8 @@ class MapMatrixClass():
 
 		try:
 			self.removeWall(positionForContiguousField,directionForContiguousField)
-		except:
+		except Exception as e:
+			print("Remove wall: %s" % e)
 			pass
 
 	def removeWall(self,position,direction):
