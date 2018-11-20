@@ -128,7 +128,7 @@ def quickTest():
 	robot.map.drawMap()
 
 def mappingTest():
-	simulationMap = SimulationMapMatrixClass(25,10)
+	simulationMap = SimulationMapMatrixClass(5,5)
 	simulationMap.generateRandomMap()
 	simulationMap.drawMap()
 	robot = RobotClass()
