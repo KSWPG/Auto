@@ -128,12 +128,12 @@ def quickTest():
 	robot.map.drawMap()
 
 def mappingTest():
-	simulationMap = SimulationMapMatrixClass(5,5)
+	simulationMap = SimulationMapMatrixClass(25,10)
 	simulationMap.generateRandomMap()
 	simulationMap.drawMap()
 	robot = RobotClass()
 	robot.simulationMap = simulationMap
-	mappingAlgorithm1(robot)
+	mappingAlgorithm2(robot)
 	robot.map.drawMap()
 
 mappingTest()

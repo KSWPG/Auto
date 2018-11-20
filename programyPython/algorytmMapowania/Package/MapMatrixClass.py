@@ -234,6 +234,7 @@ class MapMatrixClass():
 		pathMap[robotPosition.x][robotPosition.y] = 1
 
 		actualValue = 1
+		positionToCheck = PositionClass()
 		foundPosition = PositionClass()
 		endLoop = 0
 

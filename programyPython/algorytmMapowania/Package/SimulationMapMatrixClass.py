@@ -33,10 +33,12 @@ class SimulationMapMatrixClass(MapMatrixClass):
 		for position.x in range(0,self.xSize):
 			position.y = self.ySize - 1
 			self.setWall(position,Direction.MAP_TOP)
+
 			position.y = 0
 			self.setWall(position,Direction.MAP_BOTTOM)
 		for position.y in range(0,self.ySize):
 			position.x = 0
 			self.setWall(position,Direction.MAP_LEFT)
+			
 			position.x = self.xSize - 1
 			self.setWall(position,Direction.MAP_RIGHT)
