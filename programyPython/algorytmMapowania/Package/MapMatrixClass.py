@@ -514,17 +514,24 @@ class MapMatrixClass():
 				if(position.x is not 0):
 					if(self.isWallExist(position,Direction.MAP_LEFT)):
 						sys.stdout.write("|")
-						if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("___")
-						elif(k==1 and position.y==0): sys.stdout.write("___")
-						else: sys.stdout.write("   ")
+						if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)):
+							sys.stdout.write("___")
+						elif(k==1 and position.y==0):
+							sys.stdout.write("___")
+						else:
+							sys.stdout.write("   ")
 					else:
 						if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("____")
 						elif(k==1 and position.y==0): sys.stdout.write("____")
 						else: sys.stdout.write("    ")
 				else:
 					sys.stdout.write("|")
-					if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)): sys.stdout.write("___")
-					elif(k==1 and position.y==0): sys.stdout.write("___")
-					else: sys.stdout.write("   ")
-				if(position.x==self.xSize-1):sys.stdout.write("|")
+					if(k==1 and self.isWallExist(position,Direction.MAP_BOTTOM)):
+						sys.stdout.write("___")
+					elif(k==1 and position.y==0):
+						sys.stdout.write("___")
+					else:
+						sys.stdout.write("   ")
+				if(position.x==self.xSize-1):
+					sys.stdout.write("|")
 			print("")
