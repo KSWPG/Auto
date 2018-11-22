@@ -9,6 +9,15 @@ class PositionClass:
         self.y = position.y
         self.course = position.course
 
+    def __eq__(self,other):
+        if isinstance(other, PositionClass):
+            return (self.x == other.x and self.y == other.y and self.course == other.course)
+        return False
+
+    def __ne__(self,other):
+        return not self.__eq__(other)
+
+
     def addToCourse(self,angle):
         if(angle == 90 or angle == 180 or angle == 270):
             self.course = self.course + angle

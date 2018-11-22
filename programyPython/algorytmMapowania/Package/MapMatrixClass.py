@@ -418,8 +418,11 @@ class MapMatrixClass():
 		return self.findPathTo(robotPosition,foundPosition)
 
 	def findPathTo(self,fromPosition,toPosition):
+		fromPosition.course = 0
+
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 		pathMap[toPosition.x][toPosition.y] = 1
+		
 		actualValue = 1
 		endLoop=0
 		while (endLoop==0):
@@ -460,7 +463,7 @@ class MapMatrixClass():
 							positionToCheck.y = positionToCheck.y - 1
 							if(pathMap[positionToCheck.x][positionToCheck.y]==0):
 								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
+								if(positionToCheck == fromPosition ):
 									endLoop = 1
 									break
 				if(endLoop!=0):
