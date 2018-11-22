@@ -241,6 +241,7 @@ class MapMatrixClass():
 		while (endLoop==0):
 			changeAmount = 0
 			position = PositionClass()
+			position.copyFrom(robotPosition)
 			for position.x in range(0,self.xSize):
 				for position.y in range(0,self.ySize):
 					if(pathMap[position.x][position.y] == actualValue):
@@ -422,7 +423,7 @@ class MapMatrixClass():
 
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 		pathMap[toPosition.x][toPosition.y] = 1
-		
+
 		actualValue = 1
 		endLoop=0
 		while (endLoop==0):
