@@ -20,7 +20,7 @@ class RobotClass:
 
 		#wykorzystwane tylko do testowania algorytmu potem do usuniecia
 		self.simulationMap = SimulationMapMatrixClass(10,10)
-		
+
 		self.position = PositionClass()
 		self.moves=0
 		self.map = MapMatrixClass(1,1)

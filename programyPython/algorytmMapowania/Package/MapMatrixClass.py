@@ -167,7 +167,7 @@ class MapMatrixClass():
 			return False
 
 	def findWayToNearestNoVisitedSpot(self,robotPosition):
-		findWay = FindWayClass(self.mapMatrix)
+		findWay = FindWayClass(self)
 		return findWay.findWayToNearestNoVisitedSpot(robotPosition)
 
 	def findWayToNearestNoVisitedSpot2(self,robotPosition):
