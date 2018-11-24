@@ -102,10 +102,10 @@ def mappingTest():
 	simulationMap = SimulationMapMatrixClass(25,10)
 	simulationMap.generateRandomMap()
 	simulationMap.drawMap()
-	
+
 	robot = RobotClass()
 	robot.simulationMap = simulationMap
-	mappingAlgorithm2(robot)
+	mappingAlgorithm1(robot)
 	robot.map.drawMap()
 
 mappingTest()

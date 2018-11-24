@@ -3,6 +3,7 @@ import sys
 
 from DirectionEnum import DirectionEnum as Direction
 from PositionClass import PositionClass
+from FindWayClass import FindWayClass
 
 class MapMatrixClass():
 	def __init__(self,xSize,ySize):
@@ -166,68 +167,8 @@ class MapMatrixClass():
 			return False
 
 	def findWayToNearestNoVisitedSpot(self,robotPosition):
-		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
-		pathMap[robotPosition.x][robotPosition.y] = 1
-
-		actualValue=1
-		positionToCheck = PositionClass()
-		foundPosition = PositionClass()
-		endLoop=0
-
-		while (endLoop==0):
-			#print("Cos")
-			changeAmount=0
-			position = PositionClass()
-			for position.x in range(0,self.xSize):
-				for position.y in range(0,self.ySize):
-					if(pathMap[position.x][position.y] == actualValue):
-						if(not self.isWallExist(position,Direction.MAP_LEFT)):
-							if(pathMap[position.x-1][position.y] == 0):
-								positionToCheck.copyFrom(position)
-								positionToCheck.x = positionToCheck.x -1
-								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								changeAmount = changeAmount + 1
-								if(not self.wasVisited(positionToCheck)):
-									foundPosition.copyFrom(positionToCheck)
-									endLoop = 1
-									break
-						if(not self.isWallExist(position,Direction.MAP_TOP)):
-							if(pathMap[position.x][position.y + 1] == 0):
-								positionToCheck.copyFrom(position)
-								positionToCheck.y = positionToCheck.y + 1
-								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								changeAmount = changeAmount + 1
-								if(not self.wasVisited(positionToCheck)):
-									foundPosition.copyFrom(positionToCheck)
-									endLoop = 1
-									break
-						if(not self.isWallExist(position,Direction.MAP_RIGHT)):
-							if(pathMap[position.x+1][position.y] == 0):
-								positionToCheck.copyFrom(position)
-								positionToCheck.x = positionToCheck.x + 1
-								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								changeAmount = changeAmount + 1
-								if(not self.wasVisited(positionToCheck)):
-									foundPosition.copyFrom(positionToCheck)
-									endLoop=1
-									break
-						if(not self.isWallExist(position,Direction.MAP_BOTTOM)):
-							if(pathMap[position.x][position.y-1] == 0):
-								positionToCheck.copyFrom(position)
-								positionToCheck.y = positionToCheck.y - 1
-								pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-								changeAmount = changeAmount + 1
-								if(not self.wasVisited(positionToCheck)):
-									foundPosition.copyFrom(positionToCheck)
-									endLoop = 1
-									break
-				if(endLoop!=0):break
-
-			actualValue = actualValue + 1
-			if(changeAmount==0):
-				raise Exception("Not found anymore no visited spot")
-
-		return self.findPathTo(robotPosition,foundPosition)
+		findWay = FindWayClass(self.mapMatrix)
+		return findWay.findWayToNearestNoVisitedSpot(robotPosition)
 
 	def findWayToNearestNoVisitedSpot2(self,robotPosition):
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
@@ -420,7 +361,7 @@ class MapMatrixClass():
 
 	def findPathTo(self,fromPosition,toPosition):
 		fromPosition.course = 0
-
+		toPosition.course = 0
 		pathMap = np.zeros((self.xSize,self.ySize),dtype=np.byte)
 		pathMap[toPosition.x][toPosition.y] = 1
 
