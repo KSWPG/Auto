@@ -33,6 +33,29 @@ class FindWayClass:
             if(self.changeAmount == 0):
                 raise Exception("Not found anymore no visited spot")
 
+    def findWayToNearestNoVisitedSpot2(self,robotPosition):
+        foundNoVisitedSpot = PositionClass()
+        foundNoVisitedSpot.copyFrom(self.findNearestNoVisitedSpot2(robotPosition))
+        return self.findPathTo(robotPosition,foundNoVisitedSpot)
+
+    def findNearestNoVisitedSpot2(self,robotPosition):
+        self.pathMap[robotPosition.x][robotPosition.y] = 1
+        foundPosition = PositionClass()
+
+        while(True):
+            self.changeAmount = 0
+            position = PositionClass()
+            position.copyFrom(robotPosition)
+            for position.x in range(0,self.currentMap.xSize):
+                for position.y in range(0,self.currentMap.ySize):
+                    if(self.pathMap[position.x][position.y] == self.actualValue):
+                        foundPosition.copyFrom(self.checkPosition(position))
+                        if(foundPosition.x != -1):
+                            return foundPosition
+            self.actualValue = self.actualValue + 1
+            if(self.changeAmount == 0):
+                raise Exception("Not found anymore no visited spot")
+
     def checkPosition(self,position):
         positionToCheck = PositionClass()
         positionToCheck.course = position.course
@@ -52,7 +75,7 @@ class FindWayClass:
             elif((i/90) % 4 == 3):
                 directionToCheck = Direction.MAP_BOTTOM
                 positionToCheck.y = positionToCheck.y - 1
-                
+
             if(not self.currentMap.isWallExist(position,directionToCheck)):
                 if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
                     self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
