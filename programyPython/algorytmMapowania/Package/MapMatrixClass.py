@@ -3,7 +3,7 @@ import sys
 
 from DirectionEnum import DirectionEnum as Direction
 from PositionClass import PositionClass
-from FindWayClass import FindWayClass
+from FindWayClass import *
 
 class MapMatrixClass():
 	def __init__(self,xSize,ySize):
@@ -91,20 +91,20 @@ class MapMatrixClass():
 
 	def isWallExist(self,position,direction):
 		self.checkScopeOfIndex(position)
-		if direction == Direction.MAP_TOP :
+		if(direction == Direction.MAP_TOP):
 			if self.mapMatrix[position.x][position.y] & 8 == 8:
 				return True
-		elif direction == Direction.MAP_RIGHT :
+		elif(direction == Direction.MAP_RIGHT):
 			if self.mapMatrix[position.x][position.y] & 4 == 4:
 				return True
-		elif direction == Direction.MAP_BOTTOM :
+		elif(direction == Direction.MAP_BOTTOM):
 			if self.mapMatrix[position.x][position.y] & 2 == 2:
 				return True
-		elif direction == Direction.MAP_LEFT :
+		elif(direction == Direction.MAP_LEFT):
 			if self.mapMatrix[position.x][position.y] & 1 == 1:
 				return True
 		else:
-			raise Exception("Wrong parameter for direction")
+			raise Exception("Wrong parameter for direction", direction)
 
 		return False
 

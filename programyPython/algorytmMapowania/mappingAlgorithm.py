@@ -1,5 +1,6 @@
 from Package import RobotClass
 from Package import SimulationMapMatrixClass
+from FindWayClass import FindWayClass
 
 import time
 
@@ -9,6 +10,8 @@ def mappingAlgorithm1(robot):
 	while True:
 		robot.checkSensor()
 		try:
+			#findWay = FindWayClass(robot.map)
+			#pathMap = findWay.findWayToNearestNoVisitedSpot(robot.position)
 			pathMap = robot.map.findWayToNearestNoVisitedSpot(robot.position)
 			robot.goByPath(pathMap)
 		except Exception as e:

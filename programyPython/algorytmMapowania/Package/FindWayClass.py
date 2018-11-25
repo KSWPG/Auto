@@ -52,7 +52,7 @@ class FindWayClass:
             elif((i/90) % 4 == 3):
                 directionToCheck = Direction.MAP_BOTTOM
                 positionToCheck.y = positionToCheck.y - 1
-
+                
             if(not self.currentMap.isWallExist(position,directionToCheck)):
                 if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
                     self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
