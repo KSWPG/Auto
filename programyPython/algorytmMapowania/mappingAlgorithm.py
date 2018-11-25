@@ -26,6 +26,8 @@ def mappingAlgorithm2(robot):
 	while True:
 		robot.checkSensor()
 		try:
+			#findWay = FindWayClass(robot.map)
+			#pathMap = findWay.findWayToNearestNoVisitedSpot(robot.position)
 			pathMap = robot.map.findWayToNearestNoVisitedSpot2(robot.position)
 			robot.goByPath(pathMap)
 		except Exception as e:
@@ -108,7 +110,7 @@ def mappingTest():
 
 	robot = RobotClass()
 	robot.simulationMap = simulationMap
-	mappingAlgorithm1(robot)
+	mappingAlgorithm2(robot)
 	robot.map.drawMap()
 
 mappingTest()
