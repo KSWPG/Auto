@@ -108,29 +108,29 @@ class FindWayClass:
         return directionToCheck
 
     def findPathTo(self,fromPosition,toPosition):
-        fromPosition.course = 0
-        toPosition.course = 0
+        if(self.currentMap.isNotAvailable(toPosition)):
+            raise Exception("There is no way to the given point")
+        else:
+            fromPosition.course = 0
+            toPosition.course = 0
 
-        self.pathMap.fill(0)
-        self.pathMap[toPosition.x][toPosition.y] = 1
-        print(self.pathMap)
-        self.actualValue = 1
-        while (True):
-            self.changeAmount = 0
-            position = PositionClass()
-            for position.x in range(0,self.currentMap.xSize):
-                for position.y in range(0,self.currentMap.ySize):
-                    if(self.pathMap[position.x][position.y] == self.actualValue):
-                        if (self.checkPositionsForFindPath(position,fromPosition,toPosition)):
-                            return self.pathMap
+            self.pathMap.fill(0)
+            self.pathMap[toPosition.x][toPosition.y] = 1
+            self.actualValue = 1
+            while (True):
+                self.changeAmount = 0
+                position = PositionClass()
+                for position.x in range(0,self.currentMap.xSize):
+                    for position.y in range(0,self.currentMap.ySize):
+                        if(self.pathMap[position.x][position.y] == self.actualValue):
+                            if (self.checkPositionsForFindPath(position,fromPosition,toPosition)):
+                                return self.pathMap
 
-            self.actualValue = self.actualValue + 1
-            print("cos",self.changeAmount)
-            if(self.changeAmount == 0):
-                raise Exception("There is no way to the given point")
+                self.actualValue = self.actualValue + 1
+                if(self.changeAmount == 0):
+                    raise Exception("There is no way to the given point")
 
-        #print pathMap
-        return self.pathMap
+            return self.pathMap
 
     def checkPositionsForFindPath(self,position,fromPosition,toPosition):
         positionToCheck = PositionClass()
@@ -142,11 +142,9 @@ class FindWayClass:
             if(self.checkRangeOfIndex(positionToCheck)):
                 if(not self.currentMap.isWallExist(position,directionToCheck)):
                     if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
-                        print("cos")
                         self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
                         self.changeAmount = self.changeAmount + 1
-                        print(self.changeAmount)
-                        if(fromPosition == toPosition):
+                        if(fromPosition == positionToCheck):
                             return True
             i = i + 90
 
