@@ -17,7 +17,9 @@ class FindWayClass:
         return self.findPathTo(robotPosition,foundNoVisitedSpot)
 
     def findNearestNoVisitedSpot(self,robotPosition):
+        self.pathMap.fill(0)
         self.pathMap[robotPosition.x][robotPosition.y] = 1
+        self.actualValue = 1
         foundPosition = PositionClass()
 
         while(True):
@@ -26,7 +28,7 @@ class FindWayClass:
             for position.x in range(0,self.currentMap.xSize):
                 for position.y in range(0,self.currentMap.ySize):
                     if(self.pathMap[position.x][position.y] == self.actualValue):
-                        foundPosition.copyFrom(self.checkPosition(position))
+                        foundPosition.copyFrom(self.checkPositions(position))
                         if(foundPosition.x != -1):
                             return foundPosition
             self.actualValue = self.actualValue + 1
@@ -39,42 +41,31 @@ class FindWayClass:
         return self.findPathTo(robotPosition,foundNoVisitedSpot)
 
     def findNearestNoVisitedSpot2(self,robotPosition):
+        self.pathMap.fill(0)
         self.pathMap[robotPosition.x][robotPosition.y] = 1
+        self.actualValue = 1
         foundPosition = PositionClass()
 
         while(True):
             self.changeAmount = 0
             position = PositionClass()
-            position.copyFrom(robotPosition)
+            position.course = robotPosition.course
             for position.x in range(0,self.currentMap.xSize):
                 for position.y in range(0,self.currentMap.ySize):
                     if(self.pathMap[position.x][position.y] == self.actualValue):
-                        foundPosition.copyFrom(self.checkPosition(position))
+                        foundPosition.copyFrom(self.checkPositions(position))
                         if(foundPosition.x != -1):
                             return foundPosition
             self.actualValue = self.actualValue + 1
             if(self.changeAmount == 0):
                 raise Exception("Not found anymore no visited spot")
 
-    def checkPosition(self,position):
+    def checkPositions(self,position):
         positionToCheck = PositionClass()
-        positionToCheck.course = position.course
         i = position.course
         for j in range(0,4):
-            positionToCheck.copyFrom(position)
-
-            if((i/90) % 4 == 0):
-                directionToCheck = Direction.MAP_LEFT
-                positionToCheck.x = positionToCheck.x - 1
-            elif((i/90) % 4 == 1):
-                directionToCheck = Direction.MAP_TOP
-                positionToCheck.y = positionToCheck.y + 1
-            elif((i/90) % 4 == 2):
-                directionToCheck = Direction.MAP_RIGHT
-                positionToCheck.x = positionToCheck.x + 1
-            elif((i/90) % 4 == 3):
-                directionToCheck = Direction.MAP_BOTTOM
-                positionToCheck.y = positionToCheck.y - 1
+            positionToCheck.copyFrom(self.preparePositionToCheck(i,position))
+            directionToCheck = self.prepareDirectionToCheck(i)
 
             if(not self.currentMap.isWallExist(position,directionToCheck)):
                 if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
@@ -87,59 +78,72 @@ class FindWayClass:
         positionToCheck.x = -1
         return positionToCheck
 
+    def preparePositionToCheck(self,iteration,position):
+        positionToCheck = PositionClass()
+        positionToCheck.copyFrom(position)
+
+        if((iteration/90) % 4 == 0):
+            positionToCheck.x = positionToCheck.x - 1
+        elif((iteration/90) % 4 == 1):
+            positionToCheck.y = positionToCheck.y + 1
+        elif((iteration/90) % 4 == 2):
+            positionToCheck.x = positionToCheck.x + 1
+        elif((iteration/90) % 4 == 3):
+            positionToCheck.y = positionToCheck.y - 1
+
+        return positionToCheck
+
+    def prepareDirectionToCheck(self,iteration):
+        directionToCheck = Direction.MAP_LEFT
+
+        if((iteration/90) % 4 == 0):
+            directionToCheck = Direction.MAP_LEFT
+        elif((iteration/90) % 4 == 1):
+            directionToCheck = Direction.MAP_TOP
+        elif((iteration/90) % 4 == 2):
+            directionToCheck = Direction.MAP_RIGHT
+        elif((iteration/90) % 4 == 3):
+            directionToCheck = Direction.MAP_BOTTOM
+
+        return directionToCheck
+
     def findPathTo(self,fromPosition,toPosition):
         fromPosition.course = 0
         toPosition.course = 0
 
-        pathMap = np.zeros((self.currentMap.xSize,self.currentMap.ySize),dtype=np.byte)
-        pathMap[toPosition.x][toPosition.y] = 1
+        self.pathMap.fill(0)
+        self.pathMap[toPosition.x][toPosition.y] = 1
 
-        actualValue = 1
-        endLoop=0
-        while (endLoop==0):
+        self.actualValue = 1
+        while (True):
+            self.changeAmount = 0
             position = PositionClass()
             for position.x in range(0,self.currentMap.xSize):
                 for position.y in range(0,self.currentMap.ySize):
-                    if(pathMap[position.x][position.y] == actualValue):
-                        if(position.x != 0 and not self.currentMap.isWallExist(position,Direction.MAP_LEFT)):
-                            positionToCheck = PositionClass()
-                            positionToCheck.copyFrom(position)
-                            positionToCheck.x = positionToCheck.x - 1
-                            if(pathMap[positionToCheck.x][positionToCheck.y]==0):
-                                pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-                                if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
-                                    endLoop = 1
-                                    break
-                        if(position.y != self.currentMap.ySize-1 and not self.currentMap.isWallExist(position,Direction.MAP_TOP)):
-                            positionToCheck = PositionClass()
-                            positionToCheck.copyFrom(position)
-                            positionToCheck.y = positionToCheck.y + 1
-                            if(pathMap[positionToCheck.x][positionToCheck.y]==0):
-                                pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-                                if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
-                                    endLoop = 1
-                                    break
-                        if(position.x != self.currentMap.xSize-1 and not self.currentMap.isWallExist(position,Direction.MAP_RIGHT)):
-                            positionToCheck = PositionClass()
-                            positionToCheck.copyFrom(position)
-                            positionToCheck.x = positionToCheck.x + 1
-                            if(pathMap[positionToCheck.x][positionToCheck.y]==0):
-                                pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-                                if(positionToCheck.x == fromPosition.x and positionToCheck.y == fromPosition.y):
-                                    endLoop = 1
-                                    break
-                        if(position.y !=0 and not self.currentMap.isWallExist(position,Direction.MAP_BOTTOM)):
-                            positionToCheck = PositionClass()
-                            positionToCheck.copyFrom(position)
-                            positionToCheck.y = positionToCheck.y - 1
-                            if(pathMap[positionToCheck.x][positionToCheck.y]==0):
-                                pathMap[positionToCheck.x][positionToCheck.y] = actualValue + 1
-                                if(positionToCheck == fromPosition ):
-                                    endLoop = 1
-                                    break
-                if(endLoop!=0):
-                    break
-            actualValue = actualValue + 1
+                    if(self.pathMap[position.x][position.y] == self.actualValue):
+                        if (self.checkPositionsForFindPath(position,fromPosition,toPosition)):
+                            return self.pathMap
+
+            self.actualValue = self.actualValue + 1
+            if(self.changeAmount == 0):
+                raise Exception("There is no way to the given point")
 
         #print pathMap
-        return pathMap
+        return self.pathMap
+
+    def checkPositionsForFindPath(self,position,fromPosition,toPosition):
+        positionToCheck = PositionClass()
+        i = position.course
+        for j in range(0,4):
+            positionToCheck.copyFrom(self.preparePositionToCheck(i,position))
+            directionToCheck = self.prepareDirectionToCheck(i)
+
+            if(not self.currentMap.isWallExist(position,directionToCheck)):
+                if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
+                    self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
+                    self.changeAmount = self.changeAmount + 1
+                    if(fromPosition == toPosition):
+                        return True
+            i = i + 90
+
+        return False

@@ -25,16 +25,16 @@ def mappingAlgorithm1(robot):
 def mappingAlgorithm2(robot):
 	while True:
 		robot.checkSensor()
-		try:
+		#try:
 			#findWay = FindWayClass(robot.map)
 			#pathMap = findWay.findWayToNearestNoVisitedSpot(robot.position)
-			pathMap = robot.map.findWayToNearestNoVisitedSpot2(robot.position)
-			robot.goByPath(pathMap)
-		except Exception as e:
-			if(str(e) == "Not found anymore no visited spot"):
-				break
-			else:
-				raise Exception(e)
+		pathMap = robot.map.findWayToNearestNoVisitedSpot2(robot.position)
+		robot.goByPath(pathMap)
+		#except Exception as e:
+		#	if(str(e) == "Not found anymore no visited spot"):
+		#		break
+		#	else:
+		#		raise Exception(e)
 
 	robot.map.completeMapAfterMapping()
 
