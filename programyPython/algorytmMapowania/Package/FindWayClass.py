@@ -113,7 +113,7 @@ class FindWayClass:
 
         self.pathMap.fill(0)
         self.pathMap[toPosition.x][toPosition.y] = 1
-
+        print(self.pathMap)
         self.actualValue = 1
         while (True):
             self.changeAmount = 0
@@ -125,6 +125,7 @@ class FindWayClass:
                             return self.pathMap
 
             self.actualValue = self.actualValue + 1
+            print("cos",self.changeAmount)
             if(self.changeAmount == 0):
                 raise Exception("There is no way to the given point")
 
@@ -138,12 +139,23 @@ class FindWayClass:
             positionToCheck.copyFrom(self.preparePositionToCheck(i,position))
             directionToCheck = self.prepareDirectionToCheck(i)
 
-            if(not self.currentMap.isWallExist(position,directionToCheck)):
-                if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
-                    self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
-                    self.changeAmount = self.changeAmount + 1
-                    if(fromPosition == toPosition):
-                        return True
+            if(self.checkRangeOfIndex(positionToCheck)):
+                if(not self.currentMap.isWallExist(position,directionToCheck)):
+                    if(self.pathMap[positionToCheck.x][positionToCheck.y] == 0):
+                        print("cos")
+                        self.pathMap[positionToCheck.x][positionToCheck.y] = self.actualValue + 1
+                        self.changeAmount = self.changeAmount + 1
+                        print(self.changeAmount)
+                        if(fromPosition == toPosition):
+                            return True
             i = i + 90
 
         return False
+
+    def checkRangeOfIndex(self,position):
+        if(position.x<0 or position.x >= self.currentMap.xSize):
+            return False
+        elif(position.y<0 or position.y >= self.currentMap.ySize):
+            return False
+        else:
+            return True
