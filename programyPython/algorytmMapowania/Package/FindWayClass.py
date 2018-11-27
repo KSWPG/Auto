@@ -104,7 +104,7 @@ class FindWayClass:
             directionToCheck = Direction.MAP_RIGHT
         elif((iteration/90) % 4 == 3):
             directionToCheck = Direction.MAP_BOTTOM
-
+            
         return directionToCheck
 
     def findPathTo(self,fromPosition,toPosition):
@@ -129,7 +129,6 @@ class FindWayClass:
                 self.actualValue = self.actualValue + 1
                 if(self.changeAmount == 0):
                     raise Exception("There is no way to the given point")
-
             return self.pathMap
 
     def checkPositionsForFindPath(self,position,fromPosition,toPosition):
@@ -147,7 +146,6 @@ class FindWayClass:
                         if(fromPosition == positionToCheck):
                             return True
             i = i + 90
-
         return False
 
     def checkRangeOfIndex(self,position):
