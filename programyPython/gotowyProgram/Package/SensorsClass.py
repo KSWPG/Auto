@@ -6,6 +6,8 @@ from DirectionEnum import DirectionEnum as Direction
 
 class SensorsClass:
     def __init__(self):
+        self.distanceToCheck = 50 #mm
+
         self.sensor_front_shutdown = 20
         self.sensor_right_shutdown = 16
         self.sensor_back_shutdown = 21
@@ -49,38 +51,37 @@ class SensorsClass:
 
     def isWallExist(self, course, direction):
         if ((direction == Direction.MAP_TOP and course == 0) or (direction == Direction.MAP_RIGHT and course == 90) or (direction == Direction.MAP_BOTTOM and course == 180) or (direction == Direction.MAP_LEFT and course == 270)):
-            print("przedni sensorow")
-            if(self.tof_front.get_distance()>50):
+            # print("przedni sensorow")
+            if(self.tof_front.get_distance() > self.distanceToCheck):
                 return False
             else:
                  return True
 
         elif ((direction == Direction.MAP_RIGHT and course == 0) or (direction == Direction.MAP_TOP and course == 90) or (direction == Direction.MAP_LEFT and course == 180) or (direction == Direction.MAP_BOTTOM and course == 270)):
-            print("prawy sensorow")
-            if(self.tof_right.get_distance()>50):
+            # print("prawy sensorow")
+            if(self.tof_right.get_distance() > self.distanceToCheck):
                 return False
             else:
                 return True
 
         elif ((direction == Direction.MAP_BOTTOM and course == 0) or (direction == Direction.MAP_LEFT and course == 90) or (direction == Direction.MAP_TOP and course == 180) or (direction == Direction.MAP_RIGHT and course == 270)):
-            print("tylni sensorow")
-            if(self.tof_back.get_distance()>50):
+            # print("tylni sensorow")
+            if(self.tof_back.get_distance() > self.distanceToCheck):
                 return False
             else:
                 return True
 
         elif ((direction == Direction.MAP_LEFT and course == 0) or (direction == Direction.MAP_BOTTOM and course == 90) or (direction == Direction.MAP_RIGHT and course == 180) or (direction == Direction.MAP_TOP and course == 270)):
-            print("lewy sensorow")
-            if(self.tof_left.get_distance()>50):
+            # print("lewy sensorow")
+            if(self.tof_left.get_distance() > self.distanceToCheck):
                 return False
             else:
                 return True
 
-
-sensors = SensorsClass()
-for i in range(0,100):
-    print(sensors.isWallExist(0,Direction.MAP_TOP))
-    print(sensors.isWallExist(90,Direction.MAP_TOP))
-    print(sensors.isWallExist(180,Direction.MAP_TOP))
-    print(sensors.isWallExist(270,Direction.MAP_TOP))
-    time.sleep(1)
+    def testSensors(self):
+        for i in range(0,100):
+            print(self.isWallExist(0,Direction.MAP_TOP))
+            print(self.isWallExist(90,Direction.MAP_TOP))
+            print(self.isWallExist(180,Direction.MAP_TOP))
+            print(self.isWallExist(270,Direction.MAP_TOP))
+            time.sleep(1)
