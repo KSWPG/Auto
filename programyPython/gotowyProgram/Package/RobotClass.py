@@ -6,6 +6,7 @@ from MapMatrixClass import MapMatrixClass
 from SimulationMapMatrixClass import SimulationMapMatrixClass
 from PositionClass import PositionClass
 from DirectionEnum import DirectionEnum as Direction
+from SensorsClass import SensorsClass
 
 
 class RobotClass:
@@ -24,25 +25,26 @@ class RobotClass:
 		self.position = PositionClass()
 		self.moves=0
 		self.map = MapMatrixClass(1,1)
+		self.sensors = SensorsClass()
 
 	def checkSensor(self):
 		#do testow, pozniej do zamienia przez odczyty z czujnikow ktory bedzie trzeba uzaleznic od wartosci self.position.course
-		if self.simulationMap.isWallExist(self.position,Direction.MAP_TOP):
+		if self.sensors.isWallExist(self.position.course,Direction.MAP_TOP):
 			self.map.setWallsInContiguousField(self.position,Direction.MAP_TOP)
 		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_TOP):
 			pass
 
-		if self.simulationMap.isWallExist(self.position,Direction.MAP_RIGHT):
+		if self.sensors.isWallExist(self.position.course,Direction.MAP_RIGHT):
 			self.map.setWallsInContiguousField(self.position,Direction.MAP_RIGHT)
 		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_RIGHT):
 			pass
 
-		if self.simulationMap.isWallExist(self.position,Direction.MAP_BOTTOM):
+		if self.sensors.isWallExist(self.position.course,Direction.MAP_BOTTOM):
 			self.map.setWallsInContiguousField(self.position,Direction.MAP_BOTTOM)
 		elif self.map.addNewRowIfNeeded(self.position.y,Direction.MAP_BOTTOM):
 			self.position.y = self.position.y + 1
 
-		if self.simulationMap.isWallExist(self.position,Direction.MAP_LEFT):
+		if self.sensors.isWallExist(self.position.course,Direction.MAP_LEFT):
 			self.map.setWallsInContiguousField(self.position,Direction.MAP_LEFT)
 		elif self.map.addNewColumnIfNeeded(self.position.x,Direction.MAP_LEFT):
 			self.position.x = self.position.x +1
